@@ -1,4 +1,4 @@
-package com.yorku.parking;
+package com.yorku.parkingsystem;
 
 public class Main {
     public static void main(String[] args) {
