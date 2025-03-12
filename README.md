@@ -20,6 +20,6 @@ The YorkU Parking System is a Java-based parking management application designed
 
 ### Steps to Run the Project
 
-1. Clone the repository:
+Clone the repository:
    ```bash
    git clone https://github.com/your-username/YorkU-Parking-System.git
