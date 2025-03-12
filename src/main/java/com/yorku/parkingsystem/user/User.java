@@ -1,6 +1,6 @@
 package com.yorku.parkingsystem.user;
 
-abstract class User {
+public abstract class User {
     private int userID;
     private String firstName;
     private String lastName;
@@ -16,7 +16,7 @@ abstract class User {
         this.clientType = clientType;
         this.licensePlate = licensePlate;
     }
-    abstract void displayClientDetails();
+    public abstract void displayClientDetails();
 
     public int getUserID() {
         return userID;

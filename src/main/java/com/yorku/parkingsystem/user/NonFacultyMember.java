@@ -6,7 +6,7 @@ public class NonFacultyMember extends User{
     }
 
     @Override
-    void displayClientDetails() {
+    public void displayClientDetails() {
         System.out.println("Non-Faculty Member Details:");
         System.out.println("User ID: " + getUserID());
         System.out.println("Name: " + getFirstName() + " " + getLastName());

@@ -6,7 +6,7 @@ public class Visitor extends User{
     }
 
     @Override
-    void displayClientDetails() {
+    public void displayClientDetails() {
         System.out.println("Visitor Details:");
         System.out.println("User ID: " + getUserID());
         System.out.println("Name: " + getFirstName() + " " + getLastName());
