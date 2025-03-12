@@ -2,18 +2,13 @@ package com.yorku.parkingsystem.user;
 
 public abstract class User {
     private int userID;
-    private String firstName;
-    private String lastName;
-    private String clientType;
+    private String name;
     private String licensePlate;
 
-
     // Protected constructor to enforce instantiation via factory
-    protected User(int userID, String firstName, String lastName, String clientType, String licensePlate) {
+    protected User(int userID, String name, String clientType, String licensePlate) {
         this.userID = userID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.clientType = clientType;
+        this.name = name;
         this.licensePlate = licensePlate;
     }
     public abstract void displayClientDetails();
@@ -22,16 +17,8 @@ public abstract class User {
         return userID;
     }
 
-    public String getClientType() {
-        return clientType;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
     public String getLicensePlate() {

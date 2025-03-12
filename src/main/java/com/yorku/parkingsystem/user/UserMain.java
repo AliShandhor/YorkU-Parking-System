@@ -5,15 +5,15 @@ public class UserMain {
 
         UserFactory userFactory = new UserFactory();
         // Create a Student user
-        User student = userFactory.getUser("student", 1, "Ali", "Shandhor", "CWFZ590");
+        User student = userFactory.getUser("student", 1, "Ali", "CWFZ590");
         student.displayClientDetails();
         System.out.println("================================");
         // Create a Faculty Member user
-        User faculty = UserFactory.getUser("faculty", 2, "Uzma", "Alam", "XYZ789");
+        User faculty = UserFactory.getUser("faculty", 2, "Uzma", "XYZ789");
         faculty.displayClientDetails();
         System.out.println("================================");
         // Create a Visitor user
-        User visitor = UserFactory.getUser("visitor", 3, "John", "Doe", "LMN456");
+        User visitor = UserFactory.getUser("visitor", 3,  "Doe", "LMN456");
         visitor.displayClientDetails();
     }
 }
