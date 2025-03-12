@@ -19,7 +19,7 @@ The YorkU Parking System is a Java-based parking management application designed
 - Maven (for managing dependencies)
 
 ### Steps to Run the Project
-1.  **IDE:** Install IntelliJ IDEA (initial), ensure Eclipse compatibility later.
+1.  **IDE:**
 - Use **IntelliJ IDEA** as your IDE for the initial development phase.
 - Later, we will migrate the project to be compatible with **Eclipse**.
 2.  **Clone:** `git clone https://github.com/AliShandhor/YorkU-Parking-System.git`
