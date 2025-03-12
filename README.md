@@ -4,14 +4,6 @@
 
 The YorkU Parking System is a Java-based parking management application designed for the university's parking facilities. The application features a backend implemented in Java, a frontend created using JavaFX, and a CSV-based database for simulation purposes. The system allows users to manage parking spaces, view available parking spots, and handle payments for parking at York University.
 
-## Features
-
-- **User Authentication**: Sign in and manage your parking account.
-- **Parking Space Management**: View available parking spots and reserve spaces.
-- **Payment Processing**: Calculate and process parking fees.
-- **CSV-based Database**: The system simulates data storage and retrieval using CSV files.
-- **JavaFX Frontend**: A user-friendly GUI for interaction.
-
 ## Technologies Used
 
 - **Java**: Core backend logic.
