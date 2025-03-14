@@ -15,5 +15,11 @@ public class UserMain {
         // Create a Visitor user
         User visitor = UserFactory.getUser("visitor", 3,  "Doe", "LMN456");
         visitor.displayClientDetails();
+        
+        UserVisitor visitor1 = new BillingVisitor();
+        student.accept(visitor1);
+        faculty.accept(visitor1);
+        visitor.accept(visitor1);
+        //nonFacultyMember.accept(visitor1);
     }
 }
