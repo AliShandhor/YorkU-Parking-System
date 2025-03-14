@@ -13,6 +13,8 @@ public abstract class User {
     }
     public abstract void displayClientDetails();
 
+    public abstract void accept(UserVisitor visitor);
+
     public int getUserID() {
         return userID;
     }
