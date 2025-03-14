@@ -15,4 +15,11 @@ package com.yorku.parkingsystem.user;
         System.out.println("Client Type: " + "Student");
         System.out.println("License Plate: " + getLicensePlate());
     }
+    @Override
+	public void accept(UserVisitor visitor) {
+		// TODO Auto-generated method stub
+		visitor.visit(this);
+		
+	}
 }
+

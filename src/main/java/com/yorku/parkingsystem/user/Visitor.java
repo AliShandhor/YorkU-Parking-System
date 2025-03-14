@@ -14,4 +14,11 @@ public class Visitor extends User{
         System.out.println("Client Type: " + "Visitor" );
         System.out.println("License Plate: " + getLicensePlate());
     }
+    @Override
+	public void accept(UserVisitor visitor) {
+		// TODO Auto-generated method stub
+		visitor.visit(this);
+		
+	}
 }
+
