@@ -1,9 +1,9 @@
 package com.yorku.parkingsystem.user;
 
 public abstract class User {
-    private int userID;
-    private String name;
-    private String licensePlate;
+    private final int userID;
+    private final String name;
+    private final String licensePlate;
 
     // Protected constructor to enforce instantiation via factory
     protected User(int userID, String name, String clientType, String licensePlate) {

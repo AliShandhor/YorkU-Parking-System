@@ -54,6 +54,7 @@ public class ParkingSpotBuilder {
     public ParkingSpot build() {
         // Add the created ParkingSpot to the ParkingSpotDataRecorder
         ParkingSpotDataRecorder.getInstance().addParkingSpot(parkingSpot);
+
         return parkingSpot;
     }
 }
