@@ -9,7 +9,7 @@ public class Booking {
 	private Date bookingTime;
 	private int duration;
 	
-	public Booking(int parkingSpotID, int bookingID, User user,  Date bookingTime, int duration) {
+	public Booking(int parkingSpotID, int bookingID, User user, Date bookingTime, int duration) {
 		this.parkingSpotID = parkingSpotID;
 		this.bookingID = bookingID;
 		this.user = user;
@@ -19,7 +19,6 @@ public class Booking {
 	
 	/*
 	 * confirm and cancel booking
-	 * 
 	 */
 	
 	public void confirm() {
@@ -55,15 +54,4 @@ public class Booking {
 	public int getDuration() {
 		return duration;
 	}
-	
-	
-	
-	
-	
-	
-
-
-	
-	
-
 }
