@@ -1,5 +1,7 @@
 package com.yorku.parkingsystem.user;
 
+import java.util.Date;
+
 public class UserMain {
     public static void main(String[] args) {
 
@@ -21,5 +23,37 @@ public class UserMain {
         faculty.accept(visitor1);
         visitor.accept(visitor1);
         //nonFacultyMember.accept(visitor1);
+        
+        // Create a BillingVisitor for processing charges
+        UserVisitor billingVisitor = new BillingVisitor();
+
+        // Apply billing
+        student.accept(billingVisitor);
+        faculty.accept(billingVisitor);
+        visitor.accept(billingVisitor);
+
+        //test for booking
+        Date bookingTime = new Date(); 
+        Booking booking = new Booking(101, 5001, student, bookingTime, 2);
+        
+     // Simulate delay before cancellation
+        try {
+            Thread.sleep(4000); // 4 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // detect no show and refund is not deposited 
+        System.out.println("================================");
+        booking.cancel();
+
+        
+        booking.checkIn();
+        System.out.println("================================");
+
+        
+        booking.cancel();
     }
 }
+        
+        
