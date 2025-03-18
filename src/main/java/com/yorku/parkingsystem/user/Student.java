@@ -1,6 +1,6 @@
 package com.yorku.parkingsystem.user;
 
- class Student extends User {
+ public class Student extends User {
 
 
      protected Student(int userID, String name, String clientType, String licensePlate) {
