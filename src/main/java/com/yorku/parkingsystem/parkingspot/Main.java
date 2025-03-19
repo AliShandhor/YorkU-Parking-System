@@ -1,6 +1,6 @@
 package com.yorku.parkingsystem.parkingspot;
 
-import com.yorku.parkingsystem.parkingsystem.ParkingSystem;
+import com.yorku.parkingsystem.system.ParkingSystem;
 import com.yorku.parkingsystem.user.User;
 import com.yorku.parkingsystem.user.UserFactory;
 
