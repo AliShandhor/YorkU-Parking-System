@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yorku.parkingsystem.MainMenuController">
+
+    <children>
+        <Label layoutX="51.0" layoutY="31.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Welcome to YorkU Parking System" />
+
+        <Button fx:id="bookParkingButton" layoutX="43.0" layoutY="80.0" onAction="#handleBookParking" text="Book Parking" />
+
+        <Button fx:id="viewBookingsButton" layoutX="222.0" layoutY="80.0" onAction="#handleViewBookings" text="View Bookings" />
+
+        <Button fx:id="manageLotsButton" layoutX="116.0" layoutY="128.0" onAction="#handleManageLots" text="Manage Parking Lots" />
+
+        <Button fx:id="exitButton" layoutX="164.0" layoutY="194.0" onAction="#handleExit" text="Exit" />
+    </children>
+</AnchorPane>

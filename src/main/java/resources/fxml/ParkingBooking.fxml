@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.yorku.parkingsystem.ParkingBookingController">
+
+    <children>
+        <Label layoutX="130" layoutY="30" text="Parking Booking"
+               style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <ChoiceBox fx:id="parkingLotChoiceBox" layoutX="100" layoutY="80" prefWidth="200"/>
+
+        <DatePicker fx:id="datePicker" layoutX="100" layoutY="130" prefWidth="200"/>
+
+        <TextField fx:id="vehicleNumberField" layoutX="100" layoutY="180" prefWidth="200"
+                   promptText="Enter Vehicle Number"/>
+
+        <Button fx:id="bookParkingButton" layoutX="150" layoutY="230" text="Book Now"/>
+
+        <Label fx:id="statusLabel" layoutX="100" layoutY="280" text=""
+               style="-fx-text-fill: red;"/>
+    </children>
+</AnchorPane>
