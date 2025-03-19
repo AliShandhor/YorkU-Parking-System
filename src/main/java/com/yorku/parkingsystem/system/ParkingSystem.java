@@ -1,4 +1,4 @@
-package com.yorku.parkingsystem.parkingsystem;
+package com.yorku.parkingsystem.system;
 
 import com.yorku.parkingsystem.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.user.User;
@@ -10,7 +10,7 @@ public class ParkingSystem {
     public HashMap<User, ParkingSpot> parkingSystem;
 
     public ParkingSystem() {
-        parkingSystem = new HashMap<>();
+        parkingSystem = new HashMap<User, ParkingSpot>();
     }
 
     // Method to display information about each parking spot and user
