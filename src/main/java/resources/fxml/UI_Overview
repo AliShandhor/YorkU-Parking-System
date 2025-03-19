@@ -1,0 +1,36 @@
+Main UI Screens
+
+️Main Menu (MainMenu.fxml)
+
+The starting screen with buttons to navigate to different features:
+
+"Book Parking"
+
+"View Bookings"
+
+"Manage Parking Lots"
+
+"Exit"
+
+""Main file provides a menu to access the other options in the file, where the user can browse their options""
+
+Parking Booking (ParkingBooking.fxml)
+
+Allows users to select a parking lot, choose a date, and enter vehicle details.
+
+"Book Now" button confirms the reservation.
+""Book now takes use to Payment page""
+
+View Bookings (ViewBookings.fxml)
+
+Displays a list of all parking bookings.
+
+Users can delete a booking.
+
+Manage Parking Lots (ManageLots.fxml)
+
+Admin interface to add, edit, or remove parking lots.
+
+Payment (Payment.fxml)
+
+Users enter their card details to complete the parking payment.
