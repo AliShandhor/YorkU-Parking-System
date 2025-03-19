@@ -13,6 +13,7 @@ public class ParkingSpot {
     private String status;
     private float price;
 
+
     public void setPrice(float price) {
         this.price = price;
     }
@@ -60,6 +61,10 @@ public class ParkingSpot {
     public String getStatus() {
         return status;
     }
+    public boolean isAvailability() {
+        return isAvailable;
+    }
+
 
     public Date getBookingTime() {
         return bookingTime;
