@@ -8,6 +8,8 @@ public class Booking {
 	private User user;
 	private Date bookingTime;
 	private int duration;
+	private boolean noshow;
+	private boolean checkin;
 	
 	public Booking(int parkingSpotID, int bookingID, User user, Date bookingTime, int duration) {
 		this.parkingSpotID = parkingSpotID;
@@ -15,7 +17,30 @@ public class Booking {
 		this.user = user;
 		this.bookingTime = bookingTime;
 		this.duration = duration;
+		this.noshow = false;
+		this.checkin = false;
 	}
+	// user fails to arrive in the first hour of booking period
+	public void noshowdetector(){
+		Date currentTime = new Date();
+		long onehourmillis = 60*60*1000;
+
+		if (!checkin && (currentTime.getTime() - bookingTime.getTime() > onehourmillis)) {
+		this.noshow=true;
+		System.out.println("deposit will not be refunded");
+		
+	}
+		
+		
+	}
+	/*
+	 * user check in
+	 */
+	public void checkIn() {
+        this.checkin = true;
+        this.noshow = false; 
+        System.out.println("User " + user.getName() + " checked in for Booking ID: " + bookingID);
+    }
 	
 	/*
 	 * confirm and cancel booking
@@ -29,11 +54,15 @@ public class Booking {
 	}
 	
 	public void cancel() {
+		noshowdetector();
 		BillingVisitor billingVisitor = new BillingVisitor();
 		user.accept(billingVisitor);
-		
-		System.out.println("Booking cancelled for: " + user.getName() + " Booking ID: " + bookingID);
-	}
+		if (noshow) {
+            System.out.println("Booking cancelled and no refund due to no show.");
+        } else {
+            System.out.println("Booking cancelled and deposit is refunded.");
+        }
+    }
 	
 	public int getParkingSpotID() {
 		return parkingSpotID;
@@ -54,4 +83,11 @@ public class Booking {
 	public int getDuration() {
 		return duration;
 	}
+	public boolean isNoshow() {
+		return noshow;
+	}
+	public boolean isCheckin() {
+		return checkin;
+	}
+	
 }
