@@ -2,6 +2,9 @@ package com.yorku.parkingsystem.user;
 
 import com.yorku.parkingsystem.parkinglot.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.parkinglot.parkingspot.ParkingSpotBuilder;
+import com.yorku.parkingsystem.payment.CreditCard;
+import com.yorku.parkingsystem.payment.Payment;
+import com.yorku.parkingsystem.payment.PaymentStrategy;
 
 import java.util.Date;
 
@@ -10,21 +13,25 @@ public class UserMain {
 
         // Create a Student user
         User student = UserFactory.getUser("STUDENT", "Ali", "CWFZ590", "ali@example.com", "Ali1234!");
+        student.register(true);
         student.displayClientDetails();
         System.out.println("================================");
 
         // Create a Faculty Member user
-        User faculty = UserFactory.getUser("FACULTY", "Uzma", "XYZ789", "uzma@example.com", "Uzma1234!");
+        User faculty = UserFactory.getUser("FacultyMember", "Uzma", "XYZ789", "uzma@example.com", "Uzma1234!");
+        faculty.register(true);
         faculty.displayClientDetails();
         System.out.println("================================");
 
         // Create a Visitor user
         User visitor = UserFactory.getUser("VISITOR", "John", "ABC123", "john@example.com", "John1234!");
+        visitor.register(true);
         visitor.displayClientDetails();
         System.out.println("================================");
 
         // Create a Non-Faculty user
-        User nonFaculty = UserFactory.getUser("NON-FACULTY", "Sarah", "LMN456", "sarah@example.com", "Sarah1234!");
+        User nonFaculty = UserFactory.getUser("NonFacultyMember", "Sarah", "LMN456", "sarah@example.com", "Sarah1234!");
+        nonFaculty.register(true);
         nonFaculty.displayClientDetails();
         System.out.println("================================");
 
@@ -61,6 +68,14 @@ public class UserMain {
 
         System.out.println("=================Client Type: Visitor===============");
         visitor.accept(visitor3);
+
+        //Test payment types using Strategy pattern
+        //pay using credit card
+        PaymentStrategy creditCardPayment = new CreditCard("Ali", 123456789, 123, "12/25");
+        Payment payment = new Payment(creditCardPayment);
+        //checkout and process the payment
+        booking3.checkout(payment);
+
 
     }
 }
