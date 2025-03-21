@@ -1,4 +1,4 @@
-package com.yorku.parkingsystem.parkingspot;
+package com.yorku.parkingsystem.parkinglot.parkingspot;
 
 import com.yorku.parkingsystem.system.ParkingSystem;
 import com.yorku.parkingsystem.user.User;
@@ -19,11 +19,9 @@ public class Main {
         ParkingSpot parkingSpot1 = builder1.setParkingSpotID(101)
                 .setLocation("Level 1, Zone A")
                 .setAvailability(true)
-                .setBookingID(1001)
                 .setBookingTime(new Date())
                 .setDuration(2)
                 .setStatus("Booked")
-                .setPrice(15.75f)
                 .build();
 
         // Creating the second ParkingSpot using ParkingSpotBuilder
@@ -31,11 +29,9 @@ public class Main {
         ParkingSpot parkingSpot2 = builder2.setParkingSpotID(102)
                 .setLocation("Level 2, Zone B")
                 .setAvailability(true)
-                .setBookingID(1002)
                 .setBookingTime(new Date())
                 .setDuration(3)
                 .setStatus("Available")
-                .setPrice(20.50f)
                 .build();
 
         System.out.println("Displaying using parking spot id: 102");
