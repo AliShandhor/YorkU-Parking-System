@@ -18,9 +18,6 @@ public class Booking {
 	 User who is NOT registered cannot use booking system
 	 */
 	public Booking(ParkingSpot parkingSpot, int bookingID, User user, Date bookingTime, int duration) {
-		if (user == null) {
-			throw new IllegalArgumentException("User cannot be null");
-		}
 		if (!user.isRegistered()){
 			throw new IllegalArgumentException("This user: + " + user + "is not registered, please register first");
 			//return;
@@ -78,7 +75,7 @@ public class Booking {
 	 */
 
 	public double calculateCost() {
-		if (user == null) {
+		if (!user.isRegistered()) {
 			throw new IllegalStateException("User is not registered. Cannot calculate cost.");
 		}
 		double cost = user.getRatePerHour() * duration;
@@ -118,7 +115,7 @@ public class Booking {
 
 
 	public void showDetails(){
-		if (user == null) {
+		if (!user.isRegistered()) {
 			System.out.println("User details are unavailable. User is not registered.");
 			return;
 		}

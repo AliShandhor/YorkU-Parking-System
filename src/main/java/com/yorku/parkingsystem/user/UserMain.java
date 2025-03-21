@@ -69,6 +69,8 @@ public class UserMain {
         System.out.println("=================Client Type: Visitor===============");
         visitor.accept(visitor3);
 
+
+
         //Test payment types using Strategy pattern
         //pay using credit card
         PaymentStrategy creditCardPayment = new CreditCard("Ali", 123456789, 123, "12/25");
