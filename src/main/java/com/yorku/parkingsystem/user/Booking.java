@@ -1,9 +1,11 @@
 package com.yorku.parkingsystem.user;
 
+import com.yorku.parkingsystem.parkingspot.ParkingSpot;
+
 import java.util.Date;
 
 public class Booking {
-	private int parkingSpotID;
+	private ParkingSpot parkingSpot;
 	private int bookingID;
 	private User user;
 	private Date bookingTime;
@@ -11,8 +13,8 @@ public class Booking {
 	private boolean noshow;
 	private boolean checkin;
 	
-	public Booking(int parkingSpotID, int bookingID, User user, Date bookingTime, int duration) {
-		this.parkingSpotID = parkingSpotID;
+	public Booking(ParkingSpot parkingSpot, int bookingID, User user, Date bookingTime, int duration) {
+		this.parkingSpot = parkingSpot;
 		this.bookingID = bookingID;
 		this.user = user;
 		this.bookingTime = bookingTime;
@@ -21,19 +23,16 @@ public class Booking {
 		this.checkin = false;
 	}
 	// user fails to arrive in the first hour of booking period
-	public void noshowdetector(){
+	public void noShowDetector(){
 		Date currentTime = new Date();
 		long onehourmillis = 60*60*1000;
 
 		if (!checkin && (currentTime.getTime() - bookingTime.getTime() > onehourmillis)) {
 		this.noshow=true;
 		System.out.println("deposit will not be refunded");
-		
+		}
 	}
-		
-		
-	}
-	/*
+	/**
 	 * user check in
 	 */
 	public void checkIn() {
@@ -42,20 +41,20 @@ public class Booking {
         System.out.println("User " + user.getName() + " checked in for Booking ID: " + bookingID);
     }
 	
-	/*
+	/**
 	 * confirm and cancel booking
 	 */
 	
 	public void confirm() {
-		BillingVisitor billingVisitor = new BillingVisitor();
+		BillingVisitor billingVisitor = new BillingVisitor(this);
 		user.accept(billingVisitor);
-		
+
 		System.out.println("Booking confirmed for: " + user.getName() + " Booking ID: " + bookingID);
 	}
 	
 	public void cancel() {
-		noshowdetector();
-		BillingVisitor billingVisitor = new BillingVisitor();
+		noShowDetector();
+		BillingVisitor billingVisitor = new BillingVisitor(this);
 		user.accept(billingVisitor);
 		if (noshow) {
             System.out.println("Booking cancelled and no refund due to no show.");
@@ -63,9 +62,18 @@ public class Booking {
             System.out.println("Booking cancelled and deposit is refunded.");
         }
     }
-	
-	public int getParkingSpotID() {
-		return parkingSpotID;
+	/**
+	 * Calculate the total cost of the booking based on the number of hours
+	 */
+
+	public double calculateCost() {
+		double cost = user.getRatePerHour() * duration;
+		return cost;
+	}
+
+
+	public ParkingSpot parkingSpot() {
+		return parkingSpot;
 	}
 	
 	public int getBookingID() {
@@ -83,11 +91,23 @@ public class Booking {
 	public int getDuration() {
 		return duration;
 	}
-	public boolean isNoshow() {
+	public boolean isNoShow() {
 		return noshow;
 	}
 	public boolean isCheckin() {
 		return checkin;
 	}
-	
+
+
+	public void showDetails(){
+		System.out.println("Booking Details:" +
+				"\nBooking ID: " + bookingID +
+				"\nParking Spot Details: "+ parkingSpot +
+				"\nUser info: " + user +
+				"\nBooking Time: " + bookingTime +
+				"\nDuration: " + duration + " hours" +
+				"\nTotal Cost: " + calculateCost() + "$"+
+				"\nNo Show: " + noshow +
+				"\nCheck In: " + checkin);
+	}
 }

@@ -1,5 +1,8 @@
 package com.yorku.parkingsystem.user;
 
+import com.yorku.parkingsystem.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parkingspot.ParkingSpotBuilder;
+import java.lang.Thread;
 import java.util.Date;
 
 public class UserMain {
@@ -15,44 +18,41 @@ public class UserMain {
         faculty.displayClientDetails();
         System.out.println("================================");
         // Create a Visitor user
-        User visitor = UserFactory.getUser("visitor", 3,  "Doe", "LMN456");
+        User visitor = UserFactory.getUser("visitor", 3, "Doe", "LMN456");
         visitor.displayClientDetails();
-        
-        UserVisitor visitor1 = new BillingVisitor();
+
+        // Create a parking spot
+        // Creating the first ParkingSpot using ParkingSpotBuilder
+        ParkingSpotBuilder builder1 = new ParkingSpotBuilder();
+        ParkingSpot parkingSpot1 = builder1.setParkingSpotID(101)
+                .setLocation("Level 1, Zone A")
+                .setAvailability(true)
+                .setBookingTime(new Date())
+                .setDuration(2)
+                .setStatus("Booked")
+                .build();
+
+        // create bookings for users
+        Date bookingTime = new Date();
+        Booking booking1 = new Booking(parkingSpot1, 5001, student, bookingTime, 2);
+        Booking booking2 = new Booking(parkingSpot1, 5002, faculty, bookingTime, 2);
+        Booking booking3 = new Booking(parkingSpot1, 5003, visitor, bookingTime, 2);
+
+        System.out.println("=================VISITOR PATTERN===============");
+        UserVisitor visitor1 = new BillingVisitor(booking1);
+        UserVisitor visitor2 = new BillingVisitor(booking2);
+        UserVisitor visitor3 = new BillingVisitor(booking3);
+
+        // Visitors
+        System.out.println("=================Client Type: Student===============");
         student.accept(visitor1);
-        faculty.accept(visitor1);
-        visitor.accept(visitor1);
-        //nonFacultyMember.accept(visitor1);
-        
-        // Create a BillingVisitor for processing charges
-        UserVisitor billingVisitor = new BillingVisitor();
 
-        // Apply billing
-        student.accept(billingVisitor);
-        faculty.accept(billingVisitor);
-        visitor.accept(billingVisitor);
+        System.out.println("=================Client Type: Faculty Member===============");
+        faculty.accept(visitor2);
 
-        //test for booking
-        Date bookingTime = new Date(); 
-        Booking booking = new Booking(101, 5001, student, bookingTime, 2);
-        
-     // Simulate delay before cancellation
-        try {
-            Thread.sleep(4000); // 4 seconds delay
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("=================Client Type: Visitor===============");
+        visitor.accept(visitor3);
 
-        // detect no show and refund is not deposited 
-        System.out.println("================================");
-        booking.cancel();
-
-        
-        booking.checkIn();
-        System.out.println("================================");
-
-        
-        booking.cancel();
     }
 }
         
