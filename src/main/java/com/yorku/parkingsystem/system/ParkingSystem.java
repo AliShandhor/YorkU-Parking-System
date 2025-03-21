@@ -1,10 +1,11 @@
 package com.yorku.parkingsystem.system;
 
-import com.yorku.parkingsystem.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parkinglot.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.user.User;
-
 import java.util.HashMap;
 import java.util.Map.Entry;
+// Super manager auto account generation (only 1)
+// Parking System Managers (for parking system management)
 
 public class ParkingSystem {
     public HashMap<User, ParkingSpot> parkingSystem;

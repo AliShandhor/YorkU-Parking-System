@@ -1,8 +1,8 @@
 package com.yorku.parkingsystem.user;
 
-import com.yorku.parkingsystem.parkingspot.ParkingSpot;
-import com.yorku.parkingsystem.parkingspot.ParkingSpotBuilder;
-import java.lang.Thread;
+import com.yorku.parkingsystem.parkinglot.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parkinglot.parkingspot.ParkingSpotBuilder;
+
 import java.util.Date;
 
 public class UserMain {
