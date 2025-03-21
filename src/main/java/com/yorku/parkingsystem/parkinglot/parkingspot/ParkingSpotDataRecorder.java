@@ -1,4 +1,4 @@
-package com.yorku.parkingsystem.parkingspot;
+package com.yorku.parkingsystem.parkinglot.parkingspot;
 
 import java.util.ArrayList;
 

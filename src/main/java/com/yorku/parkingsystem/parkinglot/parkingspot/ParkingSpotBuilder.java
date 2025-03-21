@@ -1,4 +1,4 @@
-package com.yorku.parkingsystem.parkingspot;
+package com.yorku.parkingsystem.parkinglot.parkingspot;
 
 import java.util.Date;
 
@@ -25,10 +25,6 @@ public class ParkingSpotBuilder {
         return this;
     }
 
-    public ParkingSpotBuilder setBookingID(int bookingID) {
-        parkingSpot.setBookingID(bookingID);
-        return this;
-    }
 
     public ParkingSpotBuilder setBookingTime(Date bookingTime) {
         parkingSpot.setBookingTime(bookingTime);
@@ -45,10 +41,10 @@ public class ParkingSpotBuilder {
         return this;
     }
 
-    public ParkingSpotBuilder setPrice(float price) {
-        parkingSpot.setPrice(price);
-        return this;
-    }
+//    public ParkingSpotBuilder setPrice(float price) {
+//        parkingSpot.setPrice(price);
+//        return this;
+//    }
 
     // Build method and add the created parking spot to the singleton recorder
     public ParkingSpot build() {

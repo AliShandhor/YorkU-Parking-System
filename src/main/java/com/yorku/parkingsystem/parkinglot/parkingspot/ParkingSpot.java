@@ -1,29 +1,33 @@
-package com.yorku.parkingsystem.parkingspot;
+package com.yorku.parkingsystem.parkinglot.parkingspot;
+
+import com.yorku.parkingsystem.parkinglot.ParkingComponent;
 
 import java.util.Date;
 
-public class ParkingSpot {
+public class ParkingSpot implements ParkingComponent {
 
     private int parkingSpotID;
     private String location;
     private boolean isAvailable;
-    private int bookingID;
     private Date bookingTime;
-    private int duration;
+    private int duration; // this needs to modified, it should be in hours, (removing it)
     private String status;
-    private float price;
 
-    public void setPrice(float price) {
-        this.price = price;
+
+    @Override
+    public void shotDetails() {
+        System.out.println("Parking Spot ID: " + parkingSpotID);
+        System.out.println("Location: " + location);
+        System.out.println("Available: " + (isAvailable ? "Yes" : "No"));
+        System.out.println("Booking Time: " + (bookingTime != null ? bookingTime.toString() : "Not booked"));
+        System.out.println("Duration: " + duration + " minutes");
+        System.out.println("Status: " + status);
     }
 
     public void setAvailability(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
 
-    public void setBookingID(int bookingID) {
-        this.bookingID = bookingID;
-    }
 
     public void setBookingTime(Date bookingTime) {
         this.bookingTime = bookingTime;
@@ -53,9 +57,6 @@ public class ParkingSpot {
         return location;
     }
 
-    public int getBookingID() {
-        return bookingID;
-    }
 
     public String getStatus() {
         return status;
@@ -65,9 +66,9 @@ public class ParkingSpot {
         return bookingTime;
     }
 
-    public float getPrice() {
-        return price;
-    }
+//    public float getPrice() {
+//        return price;
+//    }
 
     public int getDuration() {
         return duration;
@@ -79,11 +80,9 @@ public class ParkingSpot {
                 "parkingSpotID=" + parkingSpotID +
                 ", location='" + location + '\'' +
                 ", isAvailable=" + isAvailable +
-                ", bookingID=" + bookingID +
                 ", bookingTime=" + bookingTime +
                 ", duration=" + duration +
                 ", status='" + status + '\'' +
-                ", price=" + price +
                 '}';
     }
 }
