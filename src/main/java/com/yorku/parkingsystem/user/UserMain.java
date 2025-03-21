@@ -8,17 +8,26 @@ import java.util.Date;
 public class UserMain {
     public static void main(String[] args) {
 
-        UserFactory userFactory = new UserFactory();
         // Create a Student user
-        User student = userFactory.getUser("student", 1, "Ali", "CWFZ590");
+        User student = UserFactory.getUser("STUDENT", "Ali", "CWFZ590", "ali@example.com", "Ali1234!");
         student.displayClientDetails();
         System.out.println("================================");
+
         // Create a Faculty Member user
-        User faculty = UserFactory.getUser("faculty", 2, "Uzma", "XYZ789");
+        User faculty = UserFactory.getUser("FACULTY", "Uzma", "XYZ789", "uzma@example.com", "Uzma1234!");
         faculty.displayClientDetails();
         System.out.println("================================");
+
         // Create a Visitor user
-        User visitor = UserFactory.getUser("visitor", 3, "Doe", "LMN456");
+        User visitor = UserFactory.getUser("VISITOR", "John", "ABC123", "john@example.com", "John1234!");
+        visitor.displayClientDetails();
+        System.out.println("================================");
+
+        // Create a Non-Faculty user
+        User nonFaculty = UserFactory.getUser("NON-FACULTY", "Sarah", "LMN456", "sarah@example.com", "Sarah1234!");
+        nonFaculty.displayClientDetails();
+        System.out.println("================================");
+
         visitor.displayClientDetails();
 
         // Create a parking spot

@@ -2,9 +2,8 @@ package com.yorku.parkingsystem.user;
 
 public class Visitor extends User{
 
-    protected Visitor(int userID, String name, String licensePlate, double ratePerHour) {
-        super(userID, name, licensePlate, ratePerHour);
-
+    protected Visitor(String name, String email, String password, String licensePlate, double ratePerHour){
+        super(name, email, password, licensePlate, ratePerHour);
     }
 
     @Override
@@ -20,8 +19,12 @@ public class Visitor extends User{
 	public void accept(UserVisitor visitor) {
 		// TODO Auto-generated method stub
 		visitor.visit(this);
-		
 	}
+
+    @Override
+    public String getClientType() {
+        return "VISITOR";
+    }
 
     @Override
     public String toString() {

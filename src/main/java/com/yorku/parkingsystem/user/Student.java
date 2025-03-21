@@ -2,9 +2,8 @@ package com.yorku.parkingsystem.user;
 
 public class Student extends User {
 
-
-     protected Student(int userID, String name, String licensePlate, double ratePerHour) {
-         super(userID, name, licensePlate, ratePerHour);
+     protected Student(String name, String email, String password, String licensePlate, double ratePerHour){
+         super(name, email, password, licensePlate, ratePerHour);
      }
 
      @Override
@@ -22,6 +21,12 @@ public class Student extends User {
 		visitor.visit(this);
 		
 	}
+
+    @Override
+    public String getClientType() {
+        return "Student";
+    }
+
     @Override
     public String toString() {
         return "Student {" +

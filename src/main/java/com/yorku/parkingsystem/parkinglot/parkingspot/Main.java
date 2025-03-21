@@ -41,10 +41,11 @@ public class Main {
         parkingSpotDataRecorder.displayAllParkingSpotsDetails();
 
         // Creating and adding users to the parking system
-        User user1 = UserFactory.getUser("STUDENT", 1, "Ali Shandhor", "CWFZ 520");
+        User user1 = UserFactory.getUser("STUDENT",  "Ali Shandhor", "CWFZ590", "a.shanzoor@gmail.ocm", "2232");
         parkingSystem.addUserParkingSpot(user1, parkingSpot1);
 
-        User user2 = UserFactory.getUser("VISITOR", 2, "Uzma Alam", "ASW 234");
+        User user2 =  UserFactory.getUser("STUDENT",  "S s", "s", "a.s@gmail.ocm", "s3434");
+
         parkingSystem.addUserParkingSpot(user2, parkingSpot2);
 
         // Display user and parking spot information

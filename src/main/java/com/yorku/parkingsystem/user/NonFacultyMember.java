@@ -2,8 +2,8 @@ package com.yorku.parkingsystem.user;
 
 public class NonFacultyMember extends User{
 
-    protected NonFacultyMember(int userID, String name, String licensePlate, double ratePerHour) {
-        super(userID, name, licensePlate, ratePerHour);
+    protected NonFacultyMember(String name, String email, String password, String licensePlate, double ratePerHour){
+        super(name, email, password, licensePlate, ratePerHour);
     }
 
     @Override
@@ -21,6 +21,10 @@ public class NonFacultyMember extends User{
 		visitor.visit(this);
 		
 	}
+    @Override
+    public String getClientType() {
+        return "NON-FACULTY";
+    }
 
     @Override
     public String toString() {

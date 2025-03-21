@@ -10,16 +10,23 @@ public class Booking {
 	private User user;
 	private Date bookingTime;
 	private int duration;
-	private boolean noshow;
+	private boolean noShow;
 	private boolean checkin;
-	
+
+	/**
+	 User who is NOT registered cannot use booking system
+	 */
 	public Booking(ParkingSpot parkingSpot, int bookingID, User user, Date bookingTime, int duration) {
+		if (!user.isRegistered()){
+			System.out.println("This user: + " + user + "is not registered, please register first");
+			return;
+		}
 		this.parkingSpot = parkingSpot;
 		this.bookingID = bookingID;
 		this.user = user;
 		this.bookingTime = bookingTime;
 		this.duration = duration;
-		this.noshow = false;
+		this.noShow = false;
 		this.checkin = false;
 	}
 	// user fails to arrive in the first hour of booking period
@@ -28,7 +35,7 @@ public class Booking {
 		long onehourmillis = 60*60*1000;
 
 		if (!checkin && (currentTime.getTime() - bookingTime.getTime() > onehourmillis)) {
-		this.noshow=true;
+		this.noShow =true;
 		System.out.println("deposit will not be refunded");
 		}
 	}
@@ -37,7 +44,7 @@ public class Booking {
 	 */
 	public void checkIn() {
         this.checkin = true;
-        this.noshow = false; 
+        this.noShow = false;
         System.out.println("User " + user.getName() + " checked in for Booking ID: " + bookingID);
     }
 	
@@ -56,7 +63,7 @@ public class Booking {
 		noShowDetector();
 		BillingVisitor billingVisitor = new BillingVisitor(this);
 		user.accept(billingVisitor);
-		if (noshow) {
+		if (noShow) {
             System.out.println("Booking cancelled and no refund due to no show.");
         } else {
             System.out.println("Booking cancelled and deposit is refunded.");
@@ -92,7 +99,7 @@ public class Booking {
 		return duration;
 	}
 	public boolean isNoShow() {
-		return noshow;
+		return noShow;
 	}
 	public boolean isCheckin() {
 		return checkin;
@@ -107,7 +114,7 @@ public class Booking {
 				"\nBooking Time: " + bookingTime +
 				"\nDuration: " + duration + " hours" +
 				"\nTotal Cost: " + calculateCost() + "$"+
-				"\nNo Show: " + noshow +
+				"\nNo Show: " + noShow +
 				"\nCheck In: " + checkin);
 	}
 }
