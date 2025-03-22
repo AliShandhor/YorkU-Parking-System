@@ -1,6 +1,6 @@
-package com.yorku.parkingsystem.parkinglot.parkingspot;
+package com.yorku.parkingsystem.parking.parkinglot.parkingspot;
 
-import com.yorku.parkingsystem.parkinglot.ParkingComponent;
+import com.yorku.parkingsystem.parking.parkinglot.ParkingComponent;
 
 import java.util.Date;
 

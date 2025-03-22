@@ -5,14 +5,28 @@ import com.yorku.parkingsystem.user.User;
 import java.util.ArrayList;
 
 public class ClientRegistration {
-    public ArrayList<User> registeredUsers;
-    public int userID = 0;
+    private ArrayList<User> registeredUsers;
+    private int userID = 0;
+
     public ClientRegistration() {
         registeredUsers = new ArrayList<>();
     }
 
+    public ArrayList<User> getRegisteredUsers() {
+        return registeredUsers;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
     // Method to register a new user based on client type
-    public void registerClient(User newUser) {
+    public void registerClient(User newUser, ManagementTeam managementTeam) {
+        // Check if the management team is registered first before registering a new user as a client to this management team
+        if (!managementTeam.isRegistered()) {
+            System.out.println("Management team is not registered. Please register the management team first.");
+            return;
+        }
         if (registeredUsers.contains(newUser)) {  // Added closing parenthesis here
             System.out.println("User already registered!");
             return;
@@ -45,28 +59,55 @@ public class ClientRegistration {
         // Add the new user to the list of registered users
         registeredUsers.add(newUser);
 
-//        // If the user is a student, faculty, or non-faculty staff, send for further validation
-//        if (newUser.getClientType().equals("student") || newUser.getClientType().equals("FacultyMember") || newUser.getClientType().equals("NonFacultyMember") ||  newUser.getClientType().equals("VISITOR")) {
-//            System.out.println("Registration successful!");
-//
-//        } else {
-//            System.out.println("Registration successful!");
-//        }
-
         // Print details of the registered user
         System.out.println("'" + newUser.getName() + "' has been successfully registered at YorkU Parking System.");
 
     }
 
+    public void unregisterClient(User user, ManagementTeam managementTeam) {
+        // Check if the management team is registered before attempting to unregister a user
+        if (managementTeam != null && !managementTeam.isRegistered()) {
+            System.out.println("Management team is not registered. Please register the management team first.");
+            return;
+        }
+
+        // Check if the user is registered with the management team
+        if (!registeredUsers.contains(user)) {
+            System.out.println("User is not registered in the system.");
+            return;
+        }
+
+        // Unregister the user by setting their registration status to false
+        user.register(false);
+
+        // Remove the user from the registeredUsers list
+        registeredUsers.remove(user);
+
+        // If management team is not null, remove user from the management team
+        if (managementTeam != null) {
+            managementTeam.removeUser(user);
+            System.out.println("'" + user.getName() + "' has been successfully unregistered from the YorkU Parking System and management team '" + managementTeam.getName() + "'.");
+        } else {
+            System.out.println("'" + user.getName() + "' has been successfully unregistered from the YorkU Parking System.");
+        }
+    }
+
+
     // register multiple users at once
-    public void registerMultipleUsers(ArrayList<User> users){
+    public void registerMultipleUsers(ArrayList<User> users, ManagementTeam managementTeam){
+        // Check if the management team is registered first before registering set of new users as clients to this management team
+        if (!managementTeam.isRegistered()) {
+            System.out.println("Management team is not registered. Please register the management team first.");
+            return;
+        }
         for (User user : users){
-            registerClient(user);// Register each user individually
+            registerClient(user, managementTeam);// Register each user individually
 
         }
     }
 
     public void authenticateUser(String username, String password) {
+
         for (User user : registeredUsers) {
             if (user.getName().equals(username) && user.getPassword().equals(password)) {
                 System.out.println("User '" + username + "' has been authenticated successfully.");
@@ -103,5 +144,16 @@ public class ClientRegistration {
         System.out.println("- Must contain at least one special character (e.g., @$!%*?&).");
     }
 
+
+    public void displayRegisteredUsers() {
+        if (registeredUsers.isEmpty()) {
+            System.out.println("There is no any registered user in the system.");
+            return;
+        }
+        System.out.println("=============Registered Users===========");
+        for (User user : registeredUsers) {
+            System.out.println(user);;
+        }
+    }
 }
 

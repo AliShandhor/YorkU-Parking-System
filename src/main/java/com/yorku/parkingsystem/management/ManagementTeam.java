@@ -9,10 +9,10 @@ public class ManagementTeam {
     private String password;
     private int ID;
     private boolean registered;
+    private final ArrayList<User> registeredUsers;
 
-    private final ArrayList<User> users;
     public ManagementTeam() {
-        this.users = new ArrayList<>(); // Initialize the user list
+        this.registeredUsers = new ArrayList<>(); // Initialize the user list
     }
 
     public String getPassword() {
@@ -23,8 +23,8 @@ public class ManagementTeam {
         return name;
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
+    public ArrayList<User> getRegisteredUsers() {
+        return registeredUsers;
     }
 
     public void register(boolean registered) {
@@ -45,61 +45,65 @@ public class ManagementTeam {
 
     public void addUser(User user) {
         if (!user.isRegistered()) {
-            System.out.println("User: " + user.getName() + " cannot be added as they are not a registered user in the YorkU Parking System.");
-            return;
+            System.out.println("User: '" + user.getName() + "' cannot be added as they are not a registered user in the YorkU Parking System.");
+            return; // user is not registered
         }
 
         // Check if the user is already in the list
-        if (users.contains(user)) {
-            System.out.println("This user " + user + " is already in the management team: " + name);
-            return;
+        if (registeredUsers.contains(user)) {
+            System.out.println("This user '" + user.getName() + "' is already in the management team: " + name);
+            return; //  if user is already in the list
         }
 
         // If the user is not already in the list, add them
-        users.add(user);
-        System.out.println("User " + user + " has been added to the management team: " + name);
+        registeredUsers.add(user);
+        System.out.println("User '" + user.getName() + "' has been added to the management team: " + name);
     }
+
 
     public void removeUser(User user) {
         if (!user.isRegistered()) {
-            System.out.println("User: " + user.getName() + " cannot be removed as they are not a registered user in the YorkU Parking System.");
-            return;
+            System.out.println("User: '" + user.getName() + "' cannot be removed as they are not a registered user in the YorkU Parking System.");
+            return; // Exit method early if user is not registered
         }
 
         // Check if the user exists in the list
-        if (!users.contains(user)) {
-            System.out.println("This user " + user + " is not part of the management team: " + name);
-            return;
+        if (!registeredUsers.contains(user)) {
+            System.out.println("This user '" + user.getName() + "' is not part of the management team: " + name);
+            return; // Exit method early if user is not part of the team
         }
 
         // If the user exists in the list, remove them
-        users.remove(user);
-        System.out.println("User " + user + " has been removed from the management team: " + name);
+        registeredUsers.remove(user);
+        System.out.println("User '" + user.getName() + "' has been removed from the management team: " + name);
     }
 
 
     public void displayUsers() {
-        if (users.isEmpty()) {
+        if (registeredUsers.isEmpty()) {
             System.out.println("The Management team does not have any users registered.");
             return;
         }
         System.out.println("========================\n" + this); // Print ManagementTeam details
         int index = 1;
-        for (User user : users) {
-            System.out.println("User #" + index +": " + user);; // Display each user's details
+        for (User user : registeredUsers) {
+            System.out.println("User #" + index + ": " + user); // Display each user's details
             index++;
         }
+    }
+
+    public int getUsersCount() {
+        return registeredUsers.size(); // Directly return size, no need to maintain separate usersCount
     }
 
     @Override
     public String toString() {
         return "ManagementTeam{" +
-                "name='" + name +
+                "name='" + name + '\'' + // Handle null names
                 ", registered=" + registered +
-                ", usersCount=" + users.size() + // Show count instead of full list
+                ", usersCount=" + getUsersCount() +
                 '}';
     }
-
 
     public int getID() {
         return ID;
