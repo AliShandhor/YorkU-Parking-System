@@ -8,6 +8,7 @@ import com.yorku.parkingsystem.payment.PaymentStrategy;
 
 import java.util.Date;
 
+
 public class UserMain {
     public static void main(String[] args) {
 
@@ -37,6 +38,8 @@ public class UserMain {
 
         visitor.displayClientDetails();
 
+
+
         // Create a parking spot
         // Creating the first ParkingSpot using ParkingSpotBuilder
         ParkingSpotBuilder builder1 = new ParkingSpotBuilder();
@@ -47,6 +50,7 @@ public class UserMain {
                 .setDuration(2)
                 .setStatus("Booked")
                 .build();
+
 
         // create bookings for users
         Date bookingTime = new Date();
@@ -77,6 +81,11 @@ public class UserMain {
         Payment payment = new Payment(creditCardPayment);
         //checkout and process the payment
         booking3.checkout(payment);
+
+        //test for booking extension and deposit deducted
+        booking1.extendBooking(2);
+        booking1.checkIn(); // Student checks in
+        booking1.checkout(payment);
 
 
     }
