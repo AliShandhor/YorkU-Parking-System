@@ -20,8 +20,7 @@ public class Booking {
 	 */
 	public Booking(ParkingSpot parkingSpot, int bookingID, User user, Date bookingTime, int duration) {
 		if (!user.isRegistered()){
-			throw new IllegalArgumentException("This user: + " + user + "is not registered, please register first");
-			//return;
+			throw new IllegalArgumentException("This user: '" + user + "' is not registered, please register first.");
 		}
 		this.parkingSpot = parkingSpot;
 		this.bookingID = bookingID;

@@ -1,44 +1,48 @@
 package com.yorku.parkingsystem.user;
 
+import com.yorku.parkingsystem.management.ClientRegistration;
+import com.yorku.parkingsystem.management.ManagementTeam;
+import com.yorku.parkingsystem.management.SuperManager;
 import com.yorku.parkingsystem.parkinglot.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.parkinglot.parkingspot.ParkingSpotBuilder;
 import com.yorku.parkingsystem.payment.CreditCard;
 import com.yorku.parkingsystem.payment.Payment;
 import com.yorku.parkingsystem.payment.PaymentStrategy;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.prefs.Preferences;
 
 
 public class UserMain {
     public static void main(String[] args) {
+        SuperManager superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias1234@gmail.com", "123456789");
+
+        ManagementTeam managementTeam1 = new ManagementTeam();
+
+        superManager.generateManagementTeamAccount(managementTeam1);
+        ClientRegistration clientRegistration = new ClientRegistration();
+
+        ArrayList<User> users = new ArrayList<>();
 
         // Create a Student user
         User student = UserFactory.getUser("STUDENT", "Ali", "CWFZ590", "ali@example.com", "Ali1234!");
-        student.register(true);
-        student.displayClientDetails();
-        System.out.println("================================");
-
         // Create a Faculty Member user
         User faculty = UserFactory.getUser("FacultyMember", "Uzma", "XYZ789", "uzma@example.com", "Uzma1234!");
-        faculty.register(true);
-        faculty.displayClientDetails();
-        System.out.println("================================");
-
         // Create a Visitor user
         User visitor = UserFactory.getUser("VISITOR", "John", "ABC123", "john@example.com", "John1234!");
-        visitor.register(true);
-        visitor.displayClientDetails();
-        System.out.println("================================");
-
         // Create a Non-Faculty user
         User nonFaculty = UserFactory.getUser("NonFacultyMember", "Sarah", "LMN456", "sarah@example.com", "Sarah1234!");
-        nonFaculty.register(true);
-        nonFaculty.displayClientDetails();
         System.out.println("================================");
 
-        visitor.displayClientDetails();
+        users.add(student);
+        users.add(faculty);
+        users.add(visitor);
+        users.add(nonFaculty);
 
-
+        for (User user: users) {
+            clientRegistration.registerClient(user, managementTeam1);
+        }
 
         // Create a parking spot
         // Creating the first ParkingSpot using ParkingSpotBuilder

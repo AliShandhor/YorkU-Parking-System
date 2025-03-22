@@ -17,4 +17,6 @@
 
         <Button fx:id="exitButton" layoutX="164.0" layoutY="194.0" onAction="#handleExit" text="Exit" />
     </children>
+
 </AnchorPane>
+
