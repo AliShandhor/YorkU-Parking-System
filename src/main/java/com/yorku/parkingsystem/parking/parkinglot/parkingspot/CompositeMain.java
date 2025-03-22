@@ -1,5 +1,5 @@
-package com.yorku.parkingsystem.parkinglot.parkingspot;
-import com.yorku.parkingsystem.parkinglot.ParkingLot;
+package com.yorku.parkingsystem.parking.parkinglot.parkingspot;
+import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
 import java.util.Date;
 
 public class CompositeMain {

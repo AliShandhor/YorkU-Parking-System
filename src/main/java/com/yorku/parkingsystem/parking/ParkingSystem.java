@@ -1,6 +1,6 @@
-package com.yorku.parkingsystem.system;
+package com.yorku.parkingsystem.parking;
 
-import com.yorku.parkingsystem.parkinglot.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.user.User;
 import java.util.HashMap;
 import java.util.Map.Entry;
