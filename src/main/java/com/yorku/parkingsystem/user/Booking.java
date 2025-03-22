@@ -13,6 +13,7 @@ public class Booking {
 	private int duration;
 	private boolean noShow;
 	private boolean checkin;
+	private double depositAmount;
 
 	/**
 	 User who is NOT registered cannot use booking system
@@ -29,8 +30,9 @@ public class Booking {
 		this.duration = duration;
 		this.noShow = false;
 		this.checkin = false;
+		this.depositAmount = user.getRatePerHour();
 	}
-	// user fails to arrive in the first hour of booking period
+	// checks if the user fails to arrive in the first hour of booking period
 	public void noShowDetector(){
 		Date currentTime = new Date();
 		long onehourmillis = 60*60*1000;
@@ -50,7 +52,9 @@ public class Booking {
     }
 	
 	/**
-	 * confirm and cancel booking
+	 * Confirm and cancel booking
+	 * Client can edit or cancel booking before the starting time
+	 * Client can extend the parking time before expiration
 	 */
 	
 	public void confirm() {
@@ -59,17 +63,42 @@ public class Booking {
 
 		System.out.println("Booking confirmed for: " + user.getName() + " Booking ID: " + bookingID);
 	}
-	
+	private boolean beforeBookingStartTime(){
+		Date currentTime = new Date();
+		return bookingTime.after(currentTime);
+	}
+	//cancels the booking if the client has not checked in and if the booking has not started yet
 	public void cancel() {
-		noShowDetector();
-		BillingVisitor billingVisitor = new BillingVisitor(this);
-		user.accept(billingVisitor);
-		if (noShow) {
-            System.out.println("Booking cancelled and no refund due to no show.");
-        } else {
-            System.out.println("Booking cancelled and deposit is refunded.");
-        }
-    }
+		if (beforeBookingStartTime() && !checkin) {
+			noShowDetector();
+			BillingVisitor billingVisitor = new BillingVisitor(this);
+			user.accept(billingVisitor);
+			if (noShow) {
+				System.out.println("Booking cancelled and no refund due to no show.");
+			} else {
+				System.out.println("Booking cancelled and deposit is refunded.");
+			}
+		} else {
+			System.out.println("Cannot cancel booking.");
+		}
+	}
+
+	public void extendBooking(int extraHours){
+		Date currentTime = new Date();
+		// client can extend parking time before the expiration
+		long bookingEndTime = bookingTime.getTime() + (duration * 60 * 60 * 1000);
+		if (currentTime.before(new Date(bookingEndTime))) {
+			this.duration += extraHours;
+			System.out.println("Booking extended by " + extraHours + " hours to " + duration + " hours.");
+			// calculate the new cost after extending
+			double newTotalCost = calculateCost();
+			System.out.println("New total cost: " + newTotalCost);
+		} else {
+			System.out.println("Cannot extend booking. The booking time has expired.");
+		}
+	}
+
+
 	/**
 	 * Calculate the total cost of the booking based on the number of hours
 	 */
@@ -83,8 +112,15 @@ public class Booking {
 	}
 	public void checkout(Payment payment) {
 		double amount=calculateCost();
+		// Deduct the deposit amount if the client has checked in
+		//user is checked in and not a no show then the final amount to pay will be the base cost deducted with the deposit
+		if (checkin && !noShow) {
+			amount -= depositAmount;
+			System.out.println("Deposit of " + depositAmount + "$ has been deducted from the total cost.");
+		}
 		payment.checkout(amount);
 	}
+
 
 
 	public ParkingSpot parkingSpot() {
