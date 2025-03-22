@@ -71,6 +71,11 @@ public class UserManagementGUI extends Application {
             return;
         }
 
+        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+            showAlert("Error", "Password must be strong: include A-Z, a-z, 0-9, and symbols.");
+            return;
+        }        
+
         try (FileWriter writer = new FileWriter("users.csv", true)) {
             writer.append(name).append(",").append(email).append(",").append(password)
                     .append(",").append(license).append(",").append(clientType).append("\n");
