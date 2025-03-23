@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -74,16 +76,26 @@ public class UserManagementGUI extends Application {
         if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
             showAlert("Error", "Password must be strong: include A-Z, a-z, 0-9, and symbols.");
             return;
-        }        
+        }
 
         try (FileWriter writer = new FileWriter("users.csv", true)) {
+            // Check if the file is empty (i.e., the first time writing to it)
+            File file = new File("users.csv");
+            if (file.length() == 0) {
+                // If the file is empty, write the header
+                writer.append("Name,Email,Password,License,ClientType\n");
+            }
+
+            // Write the user data
             writer.append(name).append(",").append(email).append(",").append(password)
                     .append(",").append(license).append(",").append(clientType).append("\n");
+
             showAlert("Success", "User registered successfully!");
         } catch (IOException e) {
             showAlert("Error", "Could not save user data.");
         }
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
