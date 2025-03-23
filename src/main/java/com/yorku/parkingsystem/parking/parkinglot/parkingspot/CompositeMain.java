@@ -11,7 +11,6 @@ public class CompositeMain {
                 .setAvailability(true)
                 .setBookingTime(new Date())
                 .setDuration(2)
-                .setStatus("Booked")
                 .build();
 
         // Creating the second ParkingSpot using ParkingSpotBuilder
@@ -21,7 +20,6 @@ public class CompositeMain {
                 .setAvailability(true)
                 .setBookingTime(new Date())
                 .setDuration(3)
-                .setStatus("Available")
                 .build();
 
         ParkingLot parkingLot1 = new ParkingLot(1, "A", "York University");

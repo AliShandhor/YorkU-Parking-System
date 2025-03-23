@@ -52,7 +52,6 @@ public class UserMain {
                 .setAvailability(true)
                 .setBookingTime(new Date())
                 .setDuration(2)
-                .setStatus("Booked")
                 .build();
 
 

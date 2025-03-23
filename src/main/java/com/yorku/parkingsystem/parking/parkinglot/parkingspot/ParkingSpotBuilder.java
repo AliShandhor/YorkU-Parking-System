@@ -36,16 +36,6 @@ public class ParkingSpotBuilder {
         return this;
     }
 
-    public ParkingSpotBuilder setStatus(String status) {
-        parkingSpot.setStatus(status);
-        return this;
-    }
-
-//    public ParkingSpotBuilder setPrice(float price) {
-//        parkingSpot.setPrice(price);
-//        return this;
-//    }
-
     // Build method and add the created parking spot to the singleton recorder
     public ParkingSpot build() {
         // Add the created ParkingSpot to the ParkingSpotDataRecorder

@@ -21,7 +21,6 @@ public class Main {
                 .setAvailability(true)
                 .setBookingTime(new Date())
                 .setDuration(2)
-                .setStatus("Booked")
                 .build();
 
         // Creating the second ParkingSpot using ParkingSpotBuilder
@@ -31,7 +30,6 @@ public class Main {
                 .setAvailability(true)
                 .setBookingTime(new Date())
                 .setDuration(3)
-                .setStatus("Available")
                 .build();
 
         System.out.println("Displaying using parking spot id: 102");

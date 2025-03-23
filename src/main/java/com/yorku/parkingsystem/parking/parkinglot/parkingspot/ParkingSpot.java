@@ -11,7 +11,8 @@ public class ParkingSpot implements ParkingComponent {
     private boolean isAvailable;
     private Date bookingTime;
     private int duration; // this needs to modified, it should be in hours, (removing it)
-    private String status;
+
+
 
 
     @Override
@@ -21,8 +22,8 @@ public class ParkingSpot implements ParkingComponent {
         System.out.println("Available: " + (isAvailable ? "Yes" : "No"));
         System.out.println("Booking Time: " + (bookingTime != null ? bookingTime.toString() : "Not booked"));
         System.out.println("Duration: " + duration + " minutes");
-        System.out.println("Status: " + status);
     }
+
 
     public void setAvailability(boolean isAvailable) {
         this.isAvailable = isAvailable;
@@ -45,9 +46,6 @@ public class ParkingSpot implements ParkingComponent {
         this.location = location;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public int getParkingSpotID() {
         return parkingSpotID;
@@ -57,18 +55,13 @@ public class ParkingSpot implements ParkingComponent {
         return location;
     }
 
-
-    public String getStatus() {
-        return status;
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     public Date getBookingTime() {
         return bookingTime;
     }
-
-//    public float getPrice() {
-//        return price;
-//    }
 
     public int getDuration() {
         return duration;
@@ -82,7 +75,6 @@ public class ParkingSpot implements ParkingComponent {
                 ", isAvailable=" + isAvailable +
                 ", bookingTime=" + bookingTime +
                 ", duration=" + duration +
-                ", status='" + status + '\'' +
                 '}';
     }
 }
