@@ -1,5 +1,6 @@
 package com.yorku.parkingsystem.management;
 
+import com.yorku.parkingsystem.user.FacultyMember;
 import com.yorku.parkingsystem.user.User;
 import java.security.SecureRandom;
 import java.util.*;
@@ -9,6 +10,8 @@ public class SuperManager {
     private static String SUPER_MANAGER_NAME;
     private static String SUPER_MANAGER_EMAIL;
     private static String SUPER_MANAGER_PASSWORD;
+
+
 
     private static final Map<ManagementTeam, ArrayList<User>> managementTeamAccounts = new HashMap<>();
     private static int ID = 0;
@@ -24,6 +27,10 @@ public class SuperManager {
         // Private constructor to prevent instantiation
     }
 
+    public static Map<ManagementTeam, ArrayList<User>> getManagementTeamAccounts() {
+        return managementTeamAccounts;
+    }
+
     // Singleton pattern: Ensures only one instance of SuperManager exists
     public static SuperManager getSuperManagerInstance(String name, String email, String password) {
         if (superManager == null) {
@@ -33,6 +40,18 @@ public class SuperManager {
             SUPER_MANAGER_PASSWORD = password;
         }
         return superManager;
+    }
+
+    public boolean authenticateManagementTeamAccount(String userName, String password){
+        for (ManagementTeam managementTeam : managementTeamAccounts.keySet()){
+            // Compare the provided username with the team's name and password
+            if (managementTeam.getName().equals(userName) && managementTeam.getPassword().equals(password)) {
+                System.out.println("Authentication successful.");
+                return true;
+            }
+        }
+        System.out.println("Authentication failed. Please check your credentials.");
+        return false;
     }
 
     public String getSuperManagerName() {
@@ -160,6 +179,11 @@ public class SuperManager {
             }
         }
     }
+    public Set<ManagementTeam> getManagementTeamKeys() {
+        return managementTeamAccounts.keySet();
+    }
+
+
 
     // Add user to management team
     public void addUserToManagementTeam(ClientRegistration clientRegistration, ManagementTeam managementTeam, User user) {

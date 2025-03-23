@@ -15,6 +15,17 @@ public class ManagementTeam {
         this.registeredUsers = new ArrayList<>(); // Initialize the user list
     }
 
+    public boolean authenticateManagementTeamAccount(String userName, String password) {
+        if (this.password.equals(password)) {
+            System.out.println("Authentication successful.");
+            return true;
+        }
+        else {
+            System.out.println("Authentication failed.");
+            return false;
+        }
+    }
+
     public String getPassword() {
         return password;
     }
@@ -100,7 +111,7 @@ public class ManagementTeam {
     public String toString() {
         return "ManagementTeam{" +
                 "name='" + name + '\'' + // Handle null names
-                ", registered=" + registered +
+                "password= " + password + ", registered= " + registered +
                 ", usersCount=" + getUsersCount() +
                 '}';
     }
