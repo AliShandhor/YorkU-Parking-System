@@ -2,12 +2,12 @@ package com.yorku.parkingsystem.payment;
 
 public class CreditCard implements PaymentStrategy {
 	private String name;
-	private int cardNumber;
+	private long cardNumber;
 	private int cvv;
 	private String dateOfExpiry;
 	
 	
-	public CreditCard(String name, int cardNumber, int cvv, String dateOfExpiry) {
+	public CreditCard(String name, long cardNumber, int cvv, String dateOfExpiry) {
 		this.name = name;
 		this.cardNumber = cardNumber;
 		this.cvv = cvv;
@@ -25,7 +25,7 @@ public class CreditCard implements PaymentStrategy {
 		return name;
 	}
 
-	public int getCardNumber() {
+	public long getCardNumber() {
 		return cardNumber;
 	}
 	
