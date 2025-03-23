@@ -120,6 +120,10 @@ public class PaymentGUI extends Application {
         payButton.setDisable(false);
     }
 
+    /**
+     * Payment strategy : credit card, debit card, mobile payment
+     */
+
 
     private void handlePayment(ComboBox<String> paymentBox, TextField amountField, TextField nameField, TextField cardNumberField, TextField cvvField, TextField dateOfExpiryField, TextField phoneField, TextField methodField, Label statusLabel) {
         try {
@@ -245,7 +249,7 @@ public class PaymentGUI extends Application {
                 }
 
 
-                // Validate method field
+               // Validate mobile payment method
                 if (method.isEmpty()) {
                     statusLabel.setTextFill(Color.RED);
                     statusLabel.setText("Payment method is required.");
@@ -262,12 +266,12 @@ public class PaymentGUI extends Application {
             }
 
 
-            // Proceed with the payment
+            /**
+             * Payment process if successful or failed
+             */
             Payment payment = new Payment(strategy);
             payment.checkout(amount);
 
-
-            // If payment is successful
             statusLabel.setTextFill(Color.GREEN);
             statusLabel.setText("Payment Successful!");
 
