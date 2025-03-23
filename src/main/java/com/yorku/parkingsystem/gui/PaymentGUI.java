@@ -22,26 +22,23 @@ public class PaymentGUI extends Application {
         Label amountLabel = new Label("Enter Amount:");
         TextField amountField = new TextField();
         amountField.setPromptText("Amount in CAD");
-
         // Payment Selection
         Label paymentLabel = new Label("Select Payment Method:");
         ComboBox<String> paymentBox = new ComboBox<>();
         paymentBox.getItems().addAll("Credit Card", "Debit Card", "Mobile Payment");
-
         // Card Details Input
         TextField nameField = new TextField();
         nameField.setPromptText("Name on Card");
 
         TextField cardNumberField = new TextField();
-        cardNumberField.setPromptText("Card Number");
+        cardNumberField.setPromptText("Card Number (16 digits)");
 
         TextField cvvField = new TextField();
-        cvvField.setPromptText("CVV");
+        cvvField.setPromptText("CVV (3 digits)");
 
         TextField expiryField = new TextField();
         expiryField.setPromptText("MM/YY");
 
-        // Mobile Payment Details Input
         TextField phoneField = new TextField();
         phoneField.setPromptText("Phone Number");
 
@@ -65,116 +62,133 @@ public class PaymentGUI extends Application {
                 phoneField, methodField, payButton, statusLabel
         );
 
-        // Update visibility and button status
-        paymentBox.setOnAction(e -> {
-            boolean isCard = paymentBox.getValue().equals("Credit Card") || paymentBox.getValue().equals("Debit Card");
-            nameField.setVisible(isCard);
-            cardNumberField.setVisible(isCard);
-            cvvField.setVisible(isCard);
-            expiryField.setVisible(isCard);
+        nameField.setVisible(false);
+        cardNumberField.setVisible(false);
+        cvvField.setVisible(false);
+        expiryField.setVisible(false);
+        phoneField.setVisible(false);
+        methodField.setVisible(false);
 
-            boolean isMobile = paymentBox.getValue().equals("Mobile Payment");
-            phoneField.setVisible(isMobile);
-            methodField.setVisible(isMobile);
+        paymentBox.setOnAction(e -> updateVisibility(paymentBox, nameField, cardNumberField, cvvField, expiryField, phoneField, methodField, payButton, amountField));
 
-            // Enable/Disable Pay button based on inputs
-            payButton.setDisable(!isFormValid(isCard, isMobile, amountField, nameField, cardNumberField, cvvField, expiryField, phoneField, methodField));
-        });
+        amountField.textProperty().addListener((observable, oldValue, newValue) -> updateButtonState(paymentBox, amountField, nameField, cardNumberField, cvvField, expiryField, phoneField, methodField, payButton));
 
-        // validate and update button state
-        amountField.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean isCard = paymentBox.getValue().equals("Credit Card") || paymentBox.getValue().equals("Debit Card");
-            boolean isMobile = paymentBox.getValue().equals("Mobile Payment");
-            payButton.setDisable(!isFormValid(isCard, isMobile, amountField, nameField, cardNumberField, cvvField, expiryField, phoneField, methodField));
-        });
-
-        // Payment Button
-        payButton.setOnAction(e -> {
-            try {
-                double amount = parseAmount(amountField.getText());
-                if (amount == -1) {
-                    statusLabel.setTextFill(Color.RED);
-                    statusLabel.setText("Invalid amount. Please enter a valid number.");
-                    return;
-                }
-                PaymentStrategy strategy;
-
-                switch (paymentBox.getValue()) {
-                    case "Credit Card":
-                    case "Debit Card":
-                        if (nameField.getText().isEmpty()) {
-                            statusLabel.setTextFill(Color.RED);
-                            statusLabel.setText("Please enter the name on the card.");
-                            return;
-                        }
-                        if (cardNumberField.getText().isEmpty() || !cardNumberField.getText().matches("\\d{16}")) {
-                            statusLabel.setTextFill(Color.RED);
-                            statusLabel.setText("Card number must be 16 digits.");
-                            return;
-                        }
-                        if (cvvField.getText().isEmpty() || !cvvField.getText().matches("\\d{3}")) {
-                            statusLabel.setTextFill(Color.RED);
-                            statusLabel.setText("CVV must be 3 digits.");
-                            return;
-                        }
-                        if (expiryField.getText().isEmpty() || !expiryField.getText().matches("(0[1-9]|1[0-2])/[0-9]{2}")) {
-                            statusLabel.setTextFill(Color.RED);
-                            statusLabel.setText("Expiry date must be in MM/YY format.");
-                            return;
-                        }
-                        strategy = paymentBox.getValue().equals("Credit Card") ?
-                                new CreditCard(nameField.getText(), Integer.parseInt(cardNumberField.getText()), Integer.parseInt(cvvField.getText()), expiryField.getText()) :
-                                new DebitCard(nameField.getText(), Integer.parseInt(cardNumberField.getText()), Integer.parseInt(cvvField.getText()), expiryField.getText());
-                        break;
-                    case "Mobile Payment":
-                        if (phoneField.getText().isEmpty() || !phoneField.getText().matches("\\+?[0-9]{10,15}")) {
-                            statusLabel.setTextFill(Color.RED);
-                            statusLabel.setText("Please enter a valid phone number.");
-                            return;
-                        }
-                        if (methodField.getText().isEmpty()) {
-                            statusLabel.setTextFill(Color.RED);
-                            statusLabel.setText("Please enter the mobile payment method.");
-                            return;
-                        }
-                        strategy = new MobilePayment(phoneField.getText(), methodField.getText());
-                        break;
-                    default:
-                        statusLabel.setTextFill(Color.RED);
-                        statusLabel.setText("Please select a payment method.");
-                        return;
-                }
-
-                Payment payment = new Payment(strategy);
-                payment.checkout(amount);
-                statusLabel.setTextFill(Color.GREEN);
-                statusLabel.setText("Payment Successful!");
-            } catch (Exception ex) {
-                statusLabel.setTextFill(Color.RED);
-                statusLabel.setText("Payment Failed. Please check inputs.");
-            }
-        });
+        payButton.setOnAction(e -> handlePayment(paymentBox, amountField, nameField, cardNumberField, cvvField, expiryField, phoneField, methodField, statusLabel));
 
         primaryStage.setTitle("YorkU Parking System");
-        primaryStage.setScene(new Scene(layout, 400, 500));
+        primaryStage.setScene(new Scene(layout, 400, 550));
         primaryStage.show();
     }
 
-    // Validate form
-    private boolean isFormValid(boolean isCard, boolean isMobile, TextField amountField, TextField nameField, TextField cardNumberField, TextField cvvField, TextField expiryField, TextField phoneField, TextField methodField) {
-        boolean isAmountValid = !amountField.getText().isEmpty() && parseAmount(amountField.getText()) > 0;
+    private void updateVisibility(ComboBox<String> paymentBox, TextField nameField, TextField cardNumberField, TextField cvvField, TextField expiryField, TextField phoneField, TextField methodField, Button payButton, TextField amountField) {
+        if (paymentBox.getValue() == null) return;
 
-        if (isCard) {
-            return isAmountValid && !nameField.getText().isEmpty() && !cardNumberField.getText().isEmpty() &&
-                    !cvvField.getText().isEmpty() && !expiryField.getText().isEmpty();
-        } else if (isMobile) {
-            return isAmountValid && !phoneField.getText().isEmpty() && !methodField.getText().isEmpty();
-        }
-        return false;
+        boolean isCard = paymentBox.getValue().equals("Credit Card") || paymentBox.getValue().equals("Debit Card");
+        boolean isMobile = paymentBox.getValue().equals("Mobile Payment");
+
+        nameField.setVisible(isCard);
+        cardNumberField.setVisible(isCard);
+        cvvField.setVisible(isCard);
+        expiryField.setVisible(isCard);
+
+        phoneField.setVisible(isMobile);
+        methodField.setVisible(isMobile);
+
+        updateButtonState(paymentBox, amountField, nameField, cardNumberField, cvvField, expiryField, phoneField, methodField, payButton);
     }
 
-    //  parse the amount
-    // ensures valid values to be processed for the payment
+    private void updateButtonState(ComboBox<String> paymentBox, TextField amountField, TextField nameField, TextField cardNumberField, TextField cvvField, TextField expiryField, TextField phoneField, TextField methodField, Button payButton) {
+        payButton.setDisable(false);
+    }
+
+    private void handlePayment(ComboBox<String> paymentBox, TextField amountField, TextField nameField, TextField cardNumberField, TextField cvvField, TextField expiryField, TextField phoneField, TextField methodField, Label statusLabel) {
+        try {
+            double amount = parseAmount(amountField.getText());
+            if (amount <= 0) {
+                statusLabel.setTextFill(Color.RED);
+                statusLabel.setText("Invalid amount. Please enter a valid amount.");
+                return;
+            }
+
+            PaymentStrategy strategy;
+
+            if (paymentBox.getValue().equals("Credit Card") || paymentBox.getValue().equals("Debit Card")) {
+                // Validate card
+                String name = nameField.getText().trim();
+                String cardNumber = cardNumberField.getText().trim();
+                String cvv = cvvField.getText().trim();
+                String expiry = expiryField.getText().trim();
+
+                // Check if name is empty
+                if (name.trim().isEmpty()) {
+                    statusLabel.setTextFill(Color.RED);
+                    statusLabel.setText("Name on card is required.");
+                    return;
+                }
+
+                // Validate card number
+                if (!cardNumber.matches("\\d{16}")) {
+                    statusLabel.setTextFill(Color.RED);
+                    statusLabel.setText("Invalid card number. It must be 16 digits.");
+                    return;
+                }
+
+                // Validate CVV
+                if (!cvv.matches("\\d{3}")) {
+                    statusLabel.setTextFill(Color.RED);
+                    statusLabel.setText("Invalid CVV. It must be 3 digits.");
+                    return;
+                }
+
+                // Validate expiry date format (MM/YY)
+                if (!expiry.matches("(0[1-9]|1[0-2])/\\d{2}")) {
+                    statusLabel.setTextFill(Color.RED);
+                    statusLabel.setText("Invalid expiry date. It should be in MM/YY format.");
+                    return;
+                }
+
+                strategy = new CreditCard(name, Integer.parseInt(cardNumber), Integer.parseInt(cvv), expiry);
+            } else if (paymentBox.getValue().equals("Mobile Payment")) {
+                // Validate mobile payment fields
+                String phone = phoneField.getText().trim();
+                String method = methodField.getText().trim();
+
+                // Validate phone number
+                if (!phone.matches("\\+?[0-9]{10,15}")) {
+                    statusLabel.setTextFill(Color.RED);
+                    statusLabel.setText("Invalid phone number. Please enter a valid number.");
+                    return;
+                }
+
+                // Validate method field
+                if (method.isEmpty()) {
+                    statusLabel.setTextFill(Color.RED);
+                    statusLabel.setText("Payment method is required.");
+                    return;
+                }
+
+                strategy = new MobilePayment(phone, method);
+            } else {
+                statusLabel.setTextFill(Color.RED);
+                statusLabel.setText("Please select a payment method.");
+                return;
+            }
+
+            // Proceed with the payment
+            Payment payment = new Payment(strategy);
+            payment.checkout(amount);
+
+            // If payment is successful
+            statusLabel.setTextFill(Color.GREEN);
+            statusLabel.setText("Payment Successful!");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            statusLabel.setTextFill(Color.RED);
+            statusLabel.setText("Payment Failed. Please check inputs.");
+        }
+    }
+
     private double parseAmount(String amount) {
         try {
             return Double.parseDouble(amount);
@@ -186,4 +200,5 @@ public class PaymentGUI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
