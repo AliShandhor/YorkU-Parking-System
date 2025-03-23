@@ -69,7 +69,7 @@ public class AddUserController {
             User user = UserFactory.getUser(type, name, plate, email, password);
             clientRegistration.registerClient(user, selectedTeam);
             selectedTeam.addUser(user);
-            statusLabel.setText("✅ User registered and added to team.");
+            statusLabel.setText("User registered and added to team.");
         } catch (IllegalArgumentException e) {
             statusLabel.setText("Error: " + e.getMessage());
         }
