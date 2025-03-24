@@ -8,6 +8,7 @@ public abstract class User {
     private String licensePlate;
     private final double ratePerHour;
     private boolean registered = false;
+    private Booking booking;
 
     // Protected constructor to enforce instantiation via factory
     protected User(String name, String email, String password, String licensePlate, double ratePerHour) {
@@ -18,6 +19,11 @@ public abstract class User {
         this.licensePlate = licensePlate;
         this.ratePerHour = ratePerHour;
     }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
     public abstract void displayClientDetails();
 
     public abstract void accept(UserVisitor visitor);

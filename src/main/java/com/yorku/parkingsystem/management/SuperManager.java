@@ -1,20 +1,28 @@
 package com.yorku.parkingsystem.management;
 
-import com.yorku.parkingsystem.user.FacultyMember;
+import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
+import com.yorku.parkingsystem.parking.parkinglot.ParkingManagementOperations;
+import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.user.User;
+
 import java.security.SecureRandom;
 import java.util.*;
 
-public class SuperManager {
-    private static SuperManager superManager; // Singleton pattern for SuperManager
-    private static String SUPER_MANAGER_NAME;
-    private static String SUPER_MANAGER_EMAIL;
-    private static String SUPER_MANAGER_PASSWORD;
+public class SuperManager implements ParkingManagementOperations {
+    private static SuperManager superManager; // Singleton pattern for SuperManager (having only one super manager)
 
+    private static String superManagerName;
+    private static String superManagerEmail;
+    private static String superManagerPassword;
 
+    private static  Map<ManagementTeam, ArrayList<User>> managementTeamAccounts;
+    private static HashMap<User, ParkingSpot> userParkingMap;
+    // Parking Lots list controlled by Super Manager
+    private static ArrayList<ParkingLot> parkingLots;
+    private static ArrayList<User> registeredUsers; // List of registered users>
 
-    private static final Map<ManagementTeam, ArrayList<User>> managementTeamAccounts = new HashMap<>();
     private static int ID = 0;
+
     private static final SecureRandom secureRandom = new SecureRandom();
 
     private static final String CHAR_POOL_NAME = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -23,23 +31,28 @@ public class SuperManager {
     private static final int PASSWORD_LENGTH = 12; // Password length
     private static final int ACCOUNT_NAME_LENGTH = 5; // Length for account name
 
-    private SuperManager() {
-        // Private constructor to prevent instantiation
-    }
 
-    public static Map<ManagementTeam, ArrayList<User>> getManagementTeamAccounts() {
-        return managementTeamAccounts;
+    public SuperManager() {
+        // Public constructor to allow instantiation by subclasses
     }
 
     // Singleton pattern: Ensures only one instance of SuperManager exists
     public static SuperManager getSuperManagerInstance(String name, String email, String password) {
         if (superManager == null) {
             superManager = new SuperManager();
-            SUPER_MANAGER_NAME = name;
-            SUPER_MANAGER_EMAIL = email;
-            SUPER_MANAGER_PASSWORD = password;
+            superManagerName = name;
+            superManagerEmail = email;
+            superManagerPassword = password;
+            managementTeamAccounts = new HashMap<>();
+            userParkingMap = new HashMap<>();
+            parkingLots = new ArrayList<>();
+            registeredUsers = new ArrayList<>();
         }
         return superManager;
+    }
+
+    public static Map<ManagementTeam, ArrayList<User>> getManagementTeamAccounts() {
+        return managementTeamAccounts;
     }
 
     public boolean authenticateManagementTeamAccount(String userName, String password){
@@ -55,26 +68,26 @@ public class SuperManager {
     }
 
     public String getSuperManagerName() {
-        return SUPER_MANAGER_NAME;
+        return superManagerName;
     }
 
     public String getSuperManagerEmail() {
-        return SUPER_MANAGER_EMAIL;
+        return superManagerEmail;
     }
 
     public String getSuperManagerPassword() {
-        return SUPER_MANAGER_PASSWORD;
+        return superManagerPassword;
     }
 
     // Authenticate the super manager
     public static boolean authenticateSuperManager(String email, String password) {
-        return SUPER_MANAGER_EMAIL != null && SUPER_MANAGER_PASSWORD != null
-                && SUPER_MANAGER_EMAIL.equals(email) && SUPER_MANAGER_PASSWORD.equals(password);
+        return superManagerEmail != null && superManagerPassword != null
+                && superManagerEmail.equals(email) && superManagerPassword.equals(password);
     }
 
     // Generate management team account
     public void generateManagementTeamAccount(ManagementTeam managementTeam) {
-        if (!authenticateSuperManager(SUPER_MANAGER_EMAIL, SUPER_MANAGER_PASSWORD)) {
+        if (!authenticateSuperManager(superManagerEmail, superManagerPassword)) {
             System.out.println("Access Denied. Only the super manager can generate manager accounts.");
             return;
         }
@@ -121,7 +134,7 @@ public class SuperManager {
 
     // Remove management team
     public void removeManagementTeam(ManagementTeam managementTeam) {
-        if (!authenticateSuperManager(SUPER_MANAGER_EMAIL, SUPER_MANAGER_PASSWORD)) {
+        if (!authenticateSuperManager(superManagerEmail, superManagerPassword)) {
             System.out.println("Access Denied. Only the super manager can remove management teams.");
             return;
         }
@@ -151,9 +164,9 @@ public class SuperManager {
 
     // Show super manager info
     public void showSuperManagerInfo() {
-        System.out.println("Super Manager Name: " + SUPER_MANAGER_NAME);
-        System.out.println("Super Manager Email: " + SUPER_MANAGER_EMAIL);
-        System.out.println("Super Manager Password: " + SUPER_MANAGER_PASSWORD);
+        System.out.println("Super Manager Name: " + superManagerName);
+        System.out.println("Super Manager Email: " + superManagerEmail);
+        System.out.println("Super Manager Password: " + superManagerPassword);
     }
 
     // Show management teams and their users
@@ -166,7 +179,7 @@ public class SuperManager {
         System.out.println("===== Management Teams and Their Registered Users =====");
         for (Map.Entry<ManagementTeam, ArrayList<User>> entry : managementTeamAccounts.entrySet()) {
             ManagementTeam managementTeam = entry.getKey();
-            ArrayList<User> users = managementTeam.getRegisteredUsers();
+            ArrayList<User> users = entry.getValue();
 
             System.out.println("\nManagement Team: " + managementTeam.getName() + "\tID: " + managementTeam.getID());
             if (users.isEmpty()) {
@@ -179,15 +192,14 @@ public class SuperManager {
             }
         }
     }
+
     public Set<ManagementTeam> getManagementTeamKeys() {
         return managementTeamAccounts.keySet();
     }
 
-
-
     // Add user to management team
     public void addUserToManagementTeam(ClientRegistration clientRegistration, ManagementTeam managementTeam, User user) {
-        if (!authenticateSuperManager(SUPER_MANAGER_EMAIL, SUPER_MANAGER_PASSWORD)) {
+        if (!authenticateSuperManager(superManagerEmail, superManagerPassword)) {
             System.out.println("Access Denied. Only the super manager can add users to management teams.");
             return;
         }
@@ -213,7 +225,7 @@ public class SuperManager {
 
     // Remove user from management team
     public void removeUserFromManagementTeam(ManagementTeam managementTeam, User user) {
-        if (!authenticateSuperManager(SUPER_MANAGER_EMAIL, SUPER_MANAGER_PASSWORD)) {
+        if (!authenticateSuperManager(superManagerEmail, superManagerPassword)) {
             System.out.println("Access Denied. Only the super manager can remove users from management teams.");
             return;
         }
@@ -261,7 +273,6 @@ public class SuperManager {
         }
     }
 
-
     // get users of a specific management team
     public void showUsersOfManagementTeam(ManagementTeam managementTeam) {
         // Fetch users using the method from the ManagementTeam class
@@ -275,5 +286,121 @@ public class SuperManager {
             }
         }
     }
-}
 
+    // Parking lot operations
+    @Override
+    public void enableParkingLot(ParkingLot parkingLot) {
+        parkingLot.setIsEnabled(true);
+        System.out.println("Parking lot " + parkingLot + " is now enabled.");
+    }
+
+    @Override
+    public void disableParkingLot(ParkingLot parkingLot) {
+        parkingLot.setIsEnabled(false);
+        System.out.println("Parking lot " + parkingLot+ " is now disabled.");
+    }
+
+    @Override
+    public void addParkingLot(ParkingLot parkingLot) {
+        parkingLots.add(parkingLot);
+        System.out.println("Parking lot " + parkingLot + " has been added.");
+    }
+
+    @Override
+    public void enableParkingSpot(ParkingSpot parkingSpot) {
+        parkingSpot.setEnabled(true);
+        System.out.println("Parking spot " + parkingSpot + " is now enabled.");
+    }
+
+    @Override
+    public void disableParkingSpot(ParkingSpot parkingSpot) {
+        parkingSpot.setEnabled(false);
+        System.out.println("Parking spot " + parkingSpot+ " is now disabled.");
+    }
+
+    @Override
+    public void addParkingSpace(ParkingLot parkingLot, ParkingSpot parkingSpot) {
+        if (parkingLot.getIsEnabled()) {
+            parkingLot.addParkingSpot(parkingSpot);
+            System.out.println("Parking spot " + parkingSpot.getParkingSpotID() + " has been added to parking lot " + parkingLot.getName() + ".");
+        } else {
+            System.out.println("Cannot add parking spot. Parking lot " + parkingLot.getName() + " is not enabled.");
+        }
+    }
+
+    public void displayAllParkingLotsDetails() {
+        if (parkingLots.isEmpty()) {
+            System.out.println("No parking lots available.");
+            return;
+        }
+        System.out.println("===== Parking Lots Details =====");
+        for (ParkingLot parkingLot : parkingLots) {
+            parkingLot.shotDetails();
+        }
+    }
+
+
+    public void reserveParkingSpotForUser(User user, ParkingSpot parkingSpot) {
+        // check if the parking spot does not belong to any parking lot
+        if (parkingSpot.getParkingLot() == null) {
+            throw new IllegalArgumentException("This parking spot: '" + parkingSpot + "'\ndoes not belong to any parking lot.");
+        }
+
+        // check if the user is not registered
+        if (!user.isRegistered()) {
+            throw new IllegalArgumentException("User '" + user.getName() + "' must be registered to use the parking system.");
+        }
+
+        // After reserving the parking spot to a user, set the availability to false
+        parkingSpot.setAvailability(false);
+        userParkingMap.put(user, parkingSpot);
+    }
+
+    public void unreserveParkingSpotForUser(User user) {
+        // Check if the user has a reserved parking spot
+        if (!userParkingMap.containsKey(user)) {
+            throw new IllegalArgumentException("User '" + user.getName() + "' does not have any reserved parking spot.");
+        }
+
+        // Get the parking spot associated with the user
+        ParkingSpot parkingSpot = userParkingMap.get(user);
+
+        // Set the parking spot's availability back to true
+        parkingSpot.setAvailability(true);
+
+        // Remove the user and their reserved parking spot from the system
+        userParkingMap.remove(user);
+        System.out.println("Parking spot has been successfully unreserved for user: " + user.getName());
+    }
+
+    public HashMap<User, ParkingSpot> getUserParkingMap() {
+        return userParkingMap;
+    }
+
+    public void setUserParkingMap(HashMap<User, ParkingSpot> userParkingMap) {
+        this.userParkingMap = userParkingMap;
+    }
+    // Method to display all registered users
+    public void displayAllUsersDetails() {
+        if (managementTeamAccounts.isEmpty()) {
+            System.out.println("No management teams are currently registered.");
+            return;
+        }
+
+        System.out.println("===== All Registered Users =====");
+        for (Map.Entry<ManagementTeam, ArrayList<User>> entry : managementTeamAccounts.entrySet()) {
+            ManagementTeam managementTeam = entry.getKey();
+            ArrayList<User> users = entry.getValue();
+
+            System.out.println("\nManagement Team: " + managementTeam.getName() + "\tID: " + managementTeam.getID());
+            if (users.isEmpty()) {
+                System.out.println("  - No registered users.");
+            } else {
+                System.out.println("  - Registered Users:");
+                for (User user : users) {
+                    System.out.println("    * " + user.getName() + " (ID: " + user.getUserID() + ")");
+                }
+            }
+        }
+    }
+}

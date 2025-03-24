@@ -47,11 +47,9 @@ public class UserMain {
         // Create a parking spot
         // Creating the first ParkingSpot using ParkingSpotBuilder
         ParkingSpotBuilder builder1 = new ParkingSpotBuilder();
-        ParkingSpot parkingSpot1 = builder1.setParkingSpotID(101)
+        ParkingSpot parkingSpot1 = builder1
                 .setLocation("Level 1, Zone A")
                 .setAvailability(true)
-                .setBookingTime(new Date())
-                .setDuration(2)
                 .build();
 
 

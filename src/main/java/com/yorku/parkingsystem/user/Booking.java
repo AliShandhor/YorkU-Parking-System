@@ -37,25 +37,25 @@ public class Booking {
 		long onehourmillis = 60*60*1000;
 
 		if (!checkin && (currentTime.getTime() - bookingTime.getTime() > onehourmillis)) {
-		this.noShow =true;
-		System.out.println("deposit will not be refunded");
+			this.noShow =true;
+			System.out.println("deposit will not be refunded");
 		}
 	}
 	/**
 	 * user check in
 	 */
 	public void checkIn() {
-        this.checkin = true;
-        this.noShow = false;
-        System.out.println("User " + user.getName() + " checked in for Booking ID: " + bookingID);
-    }
-	
+		this.checkin = true;
+		this.noShow = false;
+		System.out.println("User " + user.getName() + " checked in for Booking ID: " + bookingID);
+	}
+
 	/**
 	 * Confirm and cancel booking
 	 * Client can edit or cancel booking before the starting time
 	 * Client can extend the parking time before expiration
 	 */
-	
+
 	public void confirm() {
 		BillingVisitor billingVisitor = new BillingVisitor(this);
 		user.accept(billingVisitor);
@@ -125,19 +125,19 @@ public class Booking {
 	public ParkingSpot parkingSpot() {
 		return parkingSpot;
 	}
-	
+
 	public int getBookingID() {
 		return bookingID;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
-	
+
 	public Date getBookingTime() {
 		return bookingTime;
 	}
-	
+
 	public int getDuration() {
 		return duration;
 	}

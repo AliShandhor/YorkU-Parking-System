@@ -1,4 +1,4 @@
-package com.yorku.parkingsystem;
+package com.yorku.parkingsystem.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;

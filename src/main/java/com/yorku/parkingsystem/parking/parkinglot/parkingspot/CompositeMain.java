@@ -6,23 +6,19 @@ public class CompositeMain {
     public static void main(String[] args) {
         // Creating the first ParkingSpot using ParkingSpotBuilder
         ParkingSpotBuilder builder1 = new ParkingSpotBuilder();
-        ParkingSpot parkingSpot1 = builder1.setParkingSpotID(101)
+        ParkingSpot parkingSpot1 = builder1
                 .setLocation("Level 1, Zone A")
                 .setAvailability(true)
-                .setBookingTime(new Date())
-                .setDuration(2)
                 .build();
 
         // Creating the second ParkingSpot using ParkingSpotBuilder
         ParkingSpotBuilder builder2 = new ParkingSpotBuilder();
-        ParkingSpot parkingSpot2 = builder2.setParkingSpotID(102)
+        ParkingSpot parkingSpot2 = builder2
                 .setLocation("Level 2, Zone A")
                 .setAvailability(true)
-                .setBookingTime(new Date())
-                .setDuration(3)
                 .build();
 
-        ParkingLot parkingLot1 = new ParkingLot(1, "A", "York University");
+        ParkingLot parkingLot1 = new ParkingLot( "A", "York University");
 
         parkingLot1.shotDetails();
 

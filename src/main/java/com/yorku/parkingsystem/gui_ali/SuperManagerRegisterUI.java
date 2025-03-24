@@ -118,9 +118,14 @@ public class SuperManagerRegisterUI extends Application {
     }
 
     private void goToManagementTeamUI() {
-        // Logic to navigate to the Management Team UI
-        System.out.println("Navigating to Management Team UI...");
-        // You can add your code here to switch to the ManagementTeamUI
+        // Create a new stage for Management Dashboard
+        Stage dashboardStage = new Stage();
+        ManagementDashboardUI managementDashboardUI = new ManagementDashboardUI();
+        managementDashboardUI.start(dashboardStage);
+
+        // Close the current Super Manager Registration UI
+        Stage currentStage = (Stage) managementTeamButton.getScene().getWindow();
+        currentStage.close();
     }
 
     private void goToUserManagementGUI() {

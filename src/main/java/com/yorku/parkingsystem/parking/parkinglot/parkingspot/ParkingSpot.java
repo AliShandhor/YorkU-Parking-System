@@ -2,51 +2,45 @@ package com.yorku.parkingsystem.parking.parkinglot.parkingspot;
 
 import com.yorku.parkingsystem.parking.parkinglot.ParkingComponent;
 
-import java.util.Date;
-
 public class ParkingSpot implements ParkingComponent {
 
-    private int parkingSpotID;
+    private static int idCounter = 0; // Static counter for unique ID generation
+    private final int parkingSpotID;
     private String location;
+    private ParkingComponent parkingLot;
     private boolean isAvailable;
-    private Date bookingTime;
-    private int duration; // this needs to modified, it should be in hours, (removing it)
+    private boolean isBelongedToParkingLot;
+    private boolean isEnabled;
 
-
-
+    public ParkingSpot() {
+        this.parkingSpotID = ++idCounter; // Assign unique ID
+    }
 
     @Override
     public void shotDetails() {
         System.out.println("Parking Spot ID: " + parkingSpotID);
         System.out.println("Location: " + location);
         System.out.println("Available: " + (isAvailable ? "Yes" : "No"));
-        System.out.println("Booking Time: " + (bookingTime != null ? bookingTime.toString() : "Not booked"));
-        System.out.println("Duration: " + duration + " minutes");
+        System.out.println("Belonged to Parking Lot: " + (isBelongedToParkingLot ? "Yes" : "No"));
     }
 
-
-    public void setAvailability(boolean isAvailable) {
-        this.isAvailable = isAvailable;
+    public void setParkingLot(ParkingComponent parkingLot) {
+        this.parkingLot = parkingLot;
     }
 
-
-    public void setBookingTime(Date bookingTime) {
-        this.bookingTime = bookingTime;
+    public void setBelongedToParkingLot(boolean belongedToParkingLot) {
+        isBelongedToParkingLot = belongedToParkingLot;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public boolean isBelongedToParkingLot() {
+        return isBelongedToParkingLot;
     }
 
-    public void setParkingSpotID(int parkingSpotID) {
-        this.parkingSpotID = parkingSpotID;
+    public static int getIdCounter() {
+        return idCounter;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-
+    // Getters and setters...
     public int getParkingSpotID() {
         return parkingSpotID;
     }
@@ -55,26 +49,37 @@ public class ParkingSpot implements ParkingComponent {
         return location;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public ParkingComponent getParkingLot() {
+        return parkingLot;
+    }
+
     public boolean isAvailable() {
         return isAvailable;
     }
 
-    public Date getBookingTime() {
-        return bookingTime;
-    }
-
-    public int getDuration() {
-        return duration;
+    public void setAvailability(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
     @Override
     public String toString() {
-        return "ParkingSpot{" +
-                "parkingSpotID=" + parkingSpotID +
-                ", location='" + location + '\'' +
-                ", isAvailable=" + isAvailable +
-                ", bookingTime=" + bookingTime +
-                ", duration=" + duration +
-                '}';
+        return "ParkingSpot details: " +
+                "\n  parkingSpotID=" + parkingSpotID +
+                ",\n  location='" + location + '\'' +
+                ",\n  parkingLot=" + parkingLot +
+                ",\n  isAvailable=" + isAvailable +
+                "\n";
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }

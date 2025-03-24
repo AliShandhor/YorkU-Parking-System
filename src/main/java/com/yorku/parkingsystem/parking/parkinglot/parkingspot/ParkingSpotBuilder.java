@@ -1,46 +1,23 @@
 package com.yorku.parkingsystem.parking.parkinglot.parkingspot;
 
-import java.util.Date;
-
 public class ParkingSpotBuilder {
-    // Builder Pattern Implemented here
-    private final ParkingSpot parkingSpot;
-
-    public ParkingSpotBuilder() {
-        this.parkingSpot = new ParkingSpot();
-    }
-
-    public ParkingSpotBuilder setParkingSpotID(int parkingSpotID) {
-        parkingSpot.setParkingSpotID(parkingSpotID);
-        return this;
-    }
+    private String location;
+    private boolean isAvailable;
 
     public ParkingSpotBuilder setLocation(String location) {
-        parkingSpot.setLocation(location);
+        this.location = location;
         return this;
     }
 
     public ParkingSpotBuilder setAvailability(boolean isAvailable) {
-        parkingSpot.setAvailability(isAvailable);
+        this.isAvailable = isAvailable;
         return this;
     }
 
-
-    public ParkingSpotBuilder setBookingTime(Date bookingTime) {
-        parkingSpot.setBookingTime(bookingTime);
-        return this;
-    }
-
-    public ParkingSpotBuilder setDuration(int duration) {
-        parkingSpot.setDuration(duration);
-        return this;
-    }
-
-    // Build method and add the created parking spot to the singleton recorder
     public ParkingSpot build() {
-        // Add the created ParkingSpot to the ParkingSpotDataRecorder
-        ParkingSpotDataRecorder.getInstance().addParkingSpot(parkingSpot);
-
+        ParkingSpot parkingSpot = new ParkingSpot();
+        parkingSpot.setLocation(location);
+        parkingSpot.setAvailability(isAvailable);
         return parkingSpot;
     }
 }

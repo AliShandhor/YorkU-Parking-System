@@ -1,15 +1,18 @@
 package com.yorku.parkingsystem.management;
 
+import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
+import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.user.User;
 
 import java.util.ArrayList;
 
-public class ManagementTeam {
+public class ManagementTeam extends SuperManager {
     private String name;
     private String password;
     private int ID;
     private boolean registered;
     private final ArrayList<User> registeredUsers;
+    private ParkingLot parkingLot;
 
     public ManagementTeam() {
         this.registeredUsers = new ArrayList<>(); // Initialize the user list
@@ -19,8 +22,7 @@ public class ManagementTeam {
         if (this.password.equals(password)) {
             System.out.println("Authentication successful.");
             return true;
-        }
-        else {
+        } else {
             System.out.println("Authentication failed.");
             return false;
         }
@@ -71,7 +73,6 @@ public class ManagementTeam {
         System.out.println("User '" + user.getName() + "' has been added to the management team: " + name);
     }
 
-
     public void removeUser(User user) {
         if (!user.isRegistered()) {
             System.out.println("User: '" + user.getName() + "' cannot be removed as they are not a registered user in the YorkU Parking System.");
@@ -88,7 +89,6 @@ public class ManagementTeam {
         registeredUsers.remove(user);
         System.out.println("User '" + user.getName() + "' has been removed from the management team: " + name);
     }
-
 
     public void displayUsers() {
         if (registeredUsers.isEmpty()) {
