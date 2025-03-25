@@ -14,22 +14,35 @@ public class Sensor {
 
     // detect if a car is using the parking space
     public void detectCar(ParkingSpot parkingSpot) {
-            if (parkingSpot.isAvailable()){
-                System.out.println("Detecting a car at the following park spot: " + parkingSpot);
+            if (!parkingSpot.isAvailable()){
+                this.isCarPresent = true;
+                System.out.println("Car detected at parking spot: " + parkingSpot.getParkingSpotID());
             }
             else  {
-                System.out.println("Car is not parking at this parking spot");
+                isCarPresent = false;
+                System.out.println("No car detected at parking spot: " + parkingSpot.getParkingSpotID());
             }
     }
 
     public void scanCarInfo(Booking booking) {
-            // needs to be completed
+        if (isCarPresent) {
+            carInfo = "User ID: " + booking.getUser().getUserID() + ", "
+                    + "License Plate: " + booking.getUser().getLicensePlate() + ", "
+                    + "Booking ID: " + booking.getBookingID();
+            System.out.println("Car info scanned: " + carInfo);
+        } else {
+            System.out.println("No car present to scan.");
+        }
     }
 
     public void sendInfoToSystem(ParkingSpot parkingSpot) {
         if (isCarPresent && !carInfo.isEmpty()) {
-            // Logic to send information to the system
-            System.out.println("Sending info to system for Parking Spot ID: " + parkingSpot.getParkingSpotID());
+            System.out.println("Sending info to system for Parking Spot ID: "
+                    + parkingSpot.getParkingSpotID());
+            System.out.println("Data Sent: " + carInfo);
+            // Add logic here to send data to the central system if needed
+        } else {
+            System.out.println("No data to send.");
         }
     }
 
