@@ -1,4 +1,4 @@
-package com.yorku.parkingsystem.gui_ali;
+package com.yorku.parkingsystem.additionalguifortesting;
 
 import com.yorku.parkingsystem.management.SuperManager;
 import javafx.application.Application;

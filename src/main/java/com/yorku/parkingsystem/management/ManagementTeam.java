@@ -1,12 +1,13 @@
 package com.yorku.parkingsystem.management;
 
 import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
+import com.yorku.parkingsystem.parking.parkinglot.ParkingManagementOperations;
 import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.user.User;
 
 import java.util.ArrayList;
 
-public class ManagementTeam extends SuperManager {
+public class ManagementTeam extends SuperManager  {
     private String name;
     private String password;
     private int ID;
