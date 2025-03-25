@@ -47,7 +47,7 @@ public class ExtendBookingController {
                 return;
             }
 
-            booking.extendBooking(extraHours);  // ✅ Your actual backend logic
+            booking.extendBooking(extraHours);  
             feedbackLabel.setText("Booking extended by " + extraHours + " hours.");
 
         } catch (NumberFormatException e) {
