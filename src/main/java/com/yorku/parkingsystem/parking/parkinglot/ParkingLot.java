@@ -1,12 +1,13 @@
 package com.yorku.parkingsystem.parking.parkinglot;
 
-import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parking.ParkingComponent;
+import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
 
 import java.util.ArrayList;
 
 public class ParkingLot implements ParkingComponent {
     private static int idCounter = 0; // Static counter for unique ID generation
-    private final int ID;
+    private final int parkingLotID;
     private final String Name;
     private final String location;
     private final int parkingSpotsTotal;
@@ -17,7 +18,7 @@ public class ParkingLot implements ParkingComponent {
     private ArrayList<ParkingComponent> parkingSpots = new ArrayList<>(); // leafs
 
     public ParkingLot(String parkingLotName, String location) {
-        this.ID = ++idCounter; // Assign unique ID
+        this.parkingLotID = ++idCounter; // Assign unique ID
         this.Name = parkingLotName;
         this.location = location;
         this.parkingSpotsTotal = 100;
@@ -44,7 +45,7 @@ public class ParkingLot implements ParkingComponent {
     @Override
     public String toString() {
         return "ParkingLot{" +
-                "ID=" + ID +
+                "ID=" + parkingLotID +
                 ", Name='" + Name + '\'' +
                 ", location='" + location + '\'' +
                 ", parkingSpotsTotal=" + parkingSpotsTotal +
@@ -120,8 +121,8 @@ public class ParkingLot implements ParkingComponent {
         return notAvailableParkingSpots;
     }
 
-    public int getID() {
-        return ID;
+    public int getParkingLotID() {
+        return parkingLotID;
     }
 
     public int getParkingSpotsTotal() {
@@ -131,6 +132,7 @@ public class ParkingLot implements ParkingComponent {
     public String getLocation() {
         return location;
     }
+
 
     public String getName() {
         return Name;

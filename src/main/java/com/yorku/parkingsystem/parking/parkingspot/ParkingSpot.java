@@ -1,16 +1,17 @@
-package com.yorku.parkingsystem.parking.parkinglot.parkingspot;
+package com.yorku.parkingsystem.parking.parkingspot;
 
-import com.yorku.parkingsystem.parking.parkinglot.ParkingComponent;
+import com.yorku.parkingsystem.parking.ParkingComponent;
 
 public class ParkingSpot implements ParkingComponent {
 
-    private static int idCounter = 0; // Static counter for unique ID generation
     private final int parkingSpotID;
     private String location;
     private ParkingComponent parkingLot;
     private boolean isAvailable;
     private boolean isBelongedToParkingLot;
     private boolean isEnabled;
+    private static int idCounter = 0; // Static counter for unique ID generation
+
 
     public ParkingSpot() {
         this.parkingSpotID = ++idCounter; // Assign unique ID
