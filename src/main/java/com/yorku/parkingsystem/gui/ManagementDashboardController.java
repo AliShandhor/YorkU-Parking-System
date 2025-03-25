@@ -13,23 +13,29 @@ public class ManagementDashboardController {
     @FXML
     private BorderPane mainPane; // This is the main BorderPane in your FXML
 
+    
+
     @FXML
     private Label centerLabel; // Optional label in center as a welcome message
 
     @FXML
     private void handleApproveUsers(ActionEvent event) throws IOException {
-        loadView("approve_users.fxml");
+        Parent view = FXMLLoader.load(getClass().getResource("/com/yorku/parkingsystem/gui/approve_users.fxml"));
+        mainPane.setCenter(view);
     }
+    
 
     @FXML
     private void handleAddUser(ActionEvent event) throws IOException {
-        loadView("add_user.fxml");
+        Parent view = FXMLLoader.load(getClass().getResource("add_user.fxml"));
+        mainPane.setCenter(view);
     }
-
     @FXML
     private void handleRemoveUser(ActionEvent event) throws IOException {
-        loadView("remove_user.fxml");
+        Parent view = FXMLLoader.load(getClass().getResource("/com/yorku/parkingsystem/gui/remove_user.fxml"));
+        mainPane.setCenter(view);
     }
+    
 
     @FXML
     private void handleViewTeamUsers(ActionEvent event) throws IOException {
@@ -43,9 +49,10 @@ public class ManagementDashboardController {
 
     @FXML
     private void handleViewAllRegistered(ActionEvent event) throws IOException {
-        loadView("view_all_users.fxml");
+        Parent view = FXMLLoader.load(getClass().getResource("/com/yorku/parkingsystem/gui/view_all_users.fxml"));
+        mainPane.setCenter(view);
     }
-
+    
     @FXML
     private void handleUnregisterUser(ActionEvent event) throws IOException {
         loadView("unregister_user.fxml");
