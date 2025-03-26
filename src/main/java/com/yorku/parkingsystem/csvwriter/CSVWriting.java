@@ -4,6 +4,7 @@ import com.yorku.parkingsystem.management.ManagementTeam;
 import com.yorku.parkingsystem.management.SuperManager;
 import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
 import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.user.Booking;
 import com.yorku.parkingsystem.user.User;
 
 import java.io.*;
@@ -109,7 +110,7 @@ public class CSVWriting {
 
     public void writeUsers(List<User> users) {
         String userFile = "users_data.csv";
-        ensureFileExists(userFile, "UserID,Name,ClientType,LicensePlate,Email,Password");
+        ensureFileExists(userFile, "UserID,Name,ClientType,LicensePlate,Email,Password,RatePerHour");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(userFile, true))) {
             for (User user : users) {
                 bw.write(user.getUserID() + "," +
@@ -117,12 +118,38 @@ public class CSVWriting {
                         user.getClientType() + "," +
                         user.getLicensePlate() + "," +
                         user.getEmail() + "," +
-                        user.getPassword());
+                        user.getPassword() + "," +
+                        user.getRatePerHour()
+                );
                 bw.newLine();
             }
             System.out.println("User data written to " + userFile);
         } catch (IOException e) {
             System.err.println("Error writing User data: " + e.getMessage());
+        }
+    }
+
+
+
+    public void writeBookings(List<Booking> bookings) {
+        String bookingFile = "bookings.csv";
+        ensureFileExists(bookingFile, "BookingID,UserID,UserName,ParkingSpotID,BookingTime,Duration,NoShow,Checkin");
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(bookingFile, true))) {
+            for (Booking booking : bookings) {
+                bw.write(booking.getBookingID() + "," +
+                        booking.getUser().getUserID() + "," +
+                        booking.getUser().getName() + "," +
+                        booking.parkingSpot().getParkingSpotID() + "," +
+                        booking.getBookingTime() + "," +
+                        booking.getDuration() + "," +
+                        booking.isNoShow() + "," +
+                        booking.isCheckin()
+                        );
+                bw.newLine();
+            }
+            System.out.println("Booking data written to " + bookingFile);
+        } catch (IOException e) {
+            System.err.println("Error writing Booking data: " + e.getMessage());
         }
     }
 }

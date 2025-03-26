@@ -6,10 +6,12 @@ import com.yorku.parkingsystem.management.SuperManager;
 import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
 import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.parking.parkingspot.ParkingSpotBuilder;
+import com.yorku.parkingsystem.user.Booking;
 import com.yorku.parkingsystem.user.User;
 import com.yorku.parkingsystem.user.UserFactory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CSVWritingTest {
@@ -69,6 +71,19 @@ public class CSVWritingTest {
         csvWriting.writeParkingLots(parkingLots);
         csvWriting.writeParkingSpots(parkingSpots);
         csvWriting.writeUsers(users);
+
+        // Create Booking objects
+        Date bookingTime = new Date();
+        Booking booking1 = new Booking(parkingSpot1, 5001, student, bookingTime, 2);
+        Booking booking2 = new Booking(parkingSpot2, 5002, facultyMember, bookingTime, 2);
+
+        // Add bookings to a list
+        List<Booking> bookings = new ArrayList<>();
+        bookings.add(booking1);
+        bookings.add(booking2);
+
+        // Write bookings to CSV
+        csvWriting.writeBookings(bookings);
 
         System.out.println("CSV files have been created successfully.");
 
