@@ -21,9 +21,11 @@ public class ApplicationMain {
         // Creating parking system object - Super Manager
         SuperManager superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "eecs3311$SoftwareDesign");
 
+        // Create Management Team objects
         ManagementTeam managementTeam1 = new ManagementTeam();
         ManagementTeam managementTeam2 = new ManagementTeam();
 
+        // Generate management team accounts
         superManager.generateManagementTeamAccount(managementTeam1);
         superManager.generateManagementTeamAccount(managementTeam2);
 
@@ -43,6 +45,7 @@ public class ApplicationMain {
         User facultyMember = UserFactory.getUser("FacultyMember", "Uzma Alam", "SDKE2312", "uzma.alam@yorku.com", "UzAlam123456789$");
 
         ClientRegistration clientRegistration = new ClientRegistration();
+        // Register users
         clientRegistration.registerClient(student, managementTeam1);
         clientRegistration.registerClient(facultyMember, managementTeam2);
 

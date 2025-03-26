@@ -53,10 +53,10 @@ public class CSVWriting {
 
     public void writeManagementTeams(List<ManagementTeam> managementTeams, SuperManager superManager) {
         String managementTeamFile = "management_teams.csv";
-        ensureFileExists(managementTeamFile, "TeamID,TeamName,SuperManagerName");
+        ensureFileExists(managementTeamFile, "TeamID,TeamName,Password,SuperManagerName");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(managementTeamFile, true))) {
             for (ManagementTeam team : managementTeams) {
-                bw.write(team.getID() + "," + team.getName() + "," + superManager.getSuperManagerName());
+                bw.write(team.getID() + "," + team.getName() + "," + team.getPassword() + ","+superManager.getSuperManagerName());
                 bw.newLine();
             }
         } catch (IOException e) {
