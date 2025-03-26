@@ -1,5 +1,6 @@
 package com.yorku.parkingsystem.csvwriter;
 
+import com.yorku.parkingsystem.management.ClientRegistration;
 import com.yorku.parkingsystem.management.ManagementTeam;
 import com.yorku.parkingsystem.management.SuperManager;
 import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class CSVWritingTest {
     public static void main(String[] args) {
+        // Singelton pattern for CSVWriting
         CSVWriting csvWriting = CSVWriting.getInstance();
         SuperManager superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "eecs3311$SoftwareDesign");
 
@@ -44,11 +46,23 @@ public class CSVWritingTest {
         parkingSpots.add(parkingSpot1);
         parkingSpots.add(parkingSpot2);
 
+
+        managementTeam1.enableParkingLot(parkingLot1);
+        managementTeam2.enableParkingLot(parkingLot2);
+
+        parkingLot1.addParkingSpot(parkingSpot1);
+        parkingLot2.addParkingSpot(parkingSpot2);
+
         List<User> users = new ArrayList<>();
-        User student = UserFactory.getUser("STUDENT", "Ali Shandhor", "CWFZ590", "a.shanzoor@yorku.com", "Ali05585852454$");
+        User student = UserFactory.getUser("Student", "Ali Shandhor", "CWFZ590", "a.shanzoor@yorku.com", "Ali05585852454$");
         User facultyMember = UserFactory.getUser("FacultyMember", "Uzma Alam", "SDKE2312", "uzma.alam@yorku.com", "UzAlam123456789$");
         users.add(student);
         users.add(facultyMember);
+
+        ClientRegistration clientRegistration = new ClientRegistration();
+
+        clientRegistration.registerClient(student, managementTeam1);
+        clientRegistration.registerClient(facultyMember, managementTeam2);
 
         csvWriting.writeSuperManager(superManager);
         csvWriting.writeManagementTeams(managementTeams, superManager);
@@ -57,5 +71,6 @@ public class CSVWritingTest {
         csvWriting.writeUsers(users);
 
         System.out.println("CSV files have been created successfully.");
+
     }
 }

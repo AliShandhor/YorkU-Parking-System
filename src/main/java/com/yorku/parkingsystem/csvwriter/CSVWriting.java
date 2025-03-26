@@ -44,10 +44,13 @@ public class CSVWriting {
         String superManagerFile = "super_manager.csv";
         ensureFileExists(superManagerFile, "Name,Email,Password");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(superManagerFile, true))) {
-            bw.write(superManager.getSuperManagerName() + "," + superManager.getSuperManagerEmail() + "," + superManager.getSuperManagerPassword());
+            bw.write(superManager.getSuperManagerName() + "," +
+                    superManager.getSuperManagerEmail() + "," +
+                    superManager.getSuperManagerPassword());
             bw.newLine();
+            System.out.println("SuperManager data written to " + superManagerFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error writing SuperManager data: " + e.getMessage());
         }
     }
 
@@ -56,11 +59,13 @@ public class CSVWriting {
         ensureFileExists(managementTeamFile, "TeamID,TeamName,Password,SuperManagerName");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(managementTeamFile, true))) {
             for (ManagementTeam team : managementTeams) {
-                bw.write(team.getID() + "," + team.getName() + "," + team.getPassword() + ","+superManager.getSuperManagerName());
+                bw.write(team.getID() + "," + team.getName() + "," +
+                        team.getPassword() + "," + superManager.getSuperManagerName());
                 bw.newLine();
             }
+            System.out.println("Management team data written to " + managementTeamFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error writing Management Team data: " + e.getMessage());
         }
     }
 
@@ -72,25 +77,33 @@ public class CSVWriting {
                 bw.write(lot.getParkingLotID() + "," + lot.getName() + "," + lot.getLocation());
                 bw.newLine();
             }
+            System.out.println("Parking lot data written to " + parkingLotFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error writing Parking Lot data: " + e.getMessage());
         }
     }
 
     public void writeParkingSpots(List<ParkingSpot> parkingSpots) {
         String parkingSpotFile = "parking_spots.csv";
-        ensureFileExists(parkingSpotFile, "ParkingSpotID,Location,IsAvailable,IsBelongedToParkingLot,IsEnabled");
+        ensureFileExists(parkingSpotFile, "ParkingSpotID,Location,IsAvailable,IsBelongedToParkingLot,IsEnabled,ParkingLotID,ParkingLotName,ParkingLotLocation");
+
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(parkingSpotFile, true))) {
-            for (ParkingSpot spot : parkingSpots) {
-                bw.write(spot.getParkingSpotID() + "," +
-                        spot.getLocation() + "," +
-                        spot.isAvailable() + "," +
-                        spot.isBelongedToParkingLot() + "," +
-                        spot.isEnabled());
+            for (ParkingSpot parkingSpot : parkingSpots) {
+                ParkingLot parkingLot = (ParkingLot) parkingSpot.getParkingLot();
+
+                bw.write(parkingSpot.getParkingSpotID() + "," +
+                        parkingSpot.getLocation() + "," +
+                        parkingSpot.isAvailable() + "," +
+                        parkingSpot.isBelongedToParkingLot() + "," +
+                        parkingSpot.isEnabled() + "," +
+                        parkingLot.getParkingLotID() + "," +
+                        parkingLot.getName() + "," +
+                        parkingLot.getLocation());
                 bw.newLine();
             }
+            System.out.println("Parking spot data written to " + parkingSpotFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error writing Parking Spot data: " + e.getMessage());
         }
     }
 
@@ -107,8 +120,9 @@ public class CSVWriting {
                         user.getPassword());
                 bw.newLine();
             }
+            System.out.println("User data written to " + userFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error writing User data: " + e.getMessage());
         }
     }
 }
