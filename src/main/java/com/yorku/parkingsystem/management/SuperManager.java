@@ -1,8 +1,7 @@
 package com.yorku.parkingsystem.management;
 
 import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
-import com.yorku.parkingsystem.parking.parkinglot.ParkingManagementOperations;
-import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.user.User;
 
 import java.security.SecureRandom;

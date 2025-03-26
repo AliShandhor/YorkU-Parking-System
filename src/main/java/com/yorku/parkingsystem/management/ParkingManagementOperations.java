@@ -1,6 +1,7 @@
-package com.yorku.parkingsystem.parking.parkinglot;
+package com.yorku.parkingsystem.management;
 
-import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
+import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
 
 public interface ParkingManagementOperations {
     // add, enable, disable parking lots

@@ -1,4 +1,4 @@
-package com.yorku.parkingsystem.parking.parkinglot;
+package com.yorku.parkingsystem.parking;
 
 public interface ParkingComponent {
     void shotDetails();
