@@ -20,4 +20,5 @@ public class ParkingSpotBuilder {
         parkingSpot.setAvailability(isAvailable);
         return parkingSpot;
     }
+
 }

@@ -16,6 +16,8 @@ import java.util.Date;
 
 public class ApplicationMain {
     public static void main(String[] args) {
+
+        // Presenter: Ali Shandhor
         System.out.println("=================YorkU PARKING SYSTEM==================");
         System.out.println("=================MANAGEMENT SYSTEM==================");
         // Creating parking system object - Super Manager
@@ -83,6 +85,7 @@ public class ApplicationMain {
         // Display all users and their details from super manager
         superManager.displayAllUsersDetails();
 
+        // Presenter: Uzma Alam
         // Create bookings for users
         System.out.println("==================BOOKINGS===============");
         Date bookingTime = new Date();
@@ -124,6 +127,7 @@ public class ApplicationMain {
         booking2.checkIn(); // Faculty member checks in
         booking2.checkout(paymentFaculty);
 
+        // Presenter: Abihroob
         // Sensor usage
         System.out.println("=================SENSOR USAGE===============");
         Sensor sensor1 = new Sensor();

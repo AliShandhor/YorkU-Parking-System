@@ -1,3 +1,0 @@
-BookingID,UserID,UserName,ParkingSpotID,BookingTime,Duration,NoShow,Checkin
-5001,1,Ali Shandhor,1,Tue Mar 25 20:37:39 EDT 2025,2,false,false
-5002,2,Uzma Alam,2,Tue Mar 25 20:37:39 EDT 2025,2,false,false
