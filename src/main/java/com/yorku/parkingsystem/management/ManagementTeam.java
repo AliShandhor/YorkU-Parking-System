@@ -1,8 +1,6 @@
 package com.yorku.parkingsystem.management;
 
 import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
-import com.yorku.parkingsystem.parking.parkinglot.ParkingManagementOperations;
-import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.user.User;
 
 import java.util.ArrayList;
@@ -28,6 +26,8 @@ public class ManagementTeam extends SuperManager  {
             return false;
         }
     }
+
+
 
     public String getPassword() {
         return password;

@@ -1,4 +1,4 @@
-package com.yorku.parkingsystem.parking.parkinglot.parkingspot;
+package com.yorku.parkingsystem.parking.parkingspot;
 
 public class ParkingSpotBuilder {
     private String location;
@@ -20,4 +20,5 @@ public class ParkingSpotBuilder {
         parkingSpot.setAvailability(isAvailable);
         return parkingSpot;
     }
+
 }

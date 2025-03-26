@@ -38,6 +38,12 @@ public class ClientRegistration {
             return;
         }
 
+        // Check user license plate
+        if (!hasValidLicensePlate(newUser)){
+            System.out.println("Invalid license plate format. Please enter a valid license plate number.");
+            return;
+        }
+
         // Validate user password
         if (!isValidPassword(newUser.getPassword())){
             System.out.println("Hey '" + newUser.getName() + "', your password does not meet the strength requirements! Please ensure your password:");
@@ -63,6 +69,28 @@ public class ClientRegistration {
         System.out.println("'" + newUser.getName() + "' has been successfully registered at YorkU Parking System.");
 
     }
+
+    public boolean hasValidLicensePlate(User user) {
+        if (user == null || user.getLicensePlate() == null) {
+            return false;  // If the user or their license plate is null, return false
+        }
+
+        String licensePlate = user.getLicensePlate().trim();  // Retrieve and trim the license plate
+
+        if (licensePlate.isEmpty()) {
+            return false;  // If the license plate is empty
+        }
+
+        // Regex to match Canadian license plate formats
+        // 1. Matches 3 letters followed by 4 digits, e.g., 'ABC 1234'
+        // 2. Matches 3 letters followed by 3 digits and 3 letters, e.g., 'ABC 123 DEF'
+        // 3. Matches 4 letters followed by 3 digits, e.g., 'ABCD 590'
+        // 4. Allows optional spaces or dashes as separators
+        String regex = "^[A-Za-z]{3,4}[-\\s]?\\d{3,4}[-\\s]?[A-Za-z]{0,3}$";
+
+        return licensePlate.matches(regex);
+    }
+
 
     public void unregisterClient(User user, ManagementTeam managementTeam) {
         // Check if the management team is registered before attempting to unregister a user

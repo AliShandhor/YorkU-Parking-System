@@ -1,6 +1,6 @@
 package com.yorku.parkingsystem.user;
 
-import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.payment.Payment;
 
 import java.util.Date;
