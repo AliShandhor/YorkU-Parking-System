@@ -5,12 +5,12 @@ import com.yorku.parkingsystem.management.ManagementTeam;
 import com.yorku.parkingsystem.user.User;
 import com.yorku.parkingsystem.user.UserFactory;
 import com.yorku.parkingsystem.management.ClientRegistration;
-import org.junit.Before;
-import org.junit.Test;
 
-import java.util.ArrayList;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SuperManagerTest {
 
@@ -18,7 +18,7 @@ public class SuperManagerTest {
     private ManagementTeam managementTeam;
     private User user;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "EECS3311$admin");
         managementTeam = new ManagementTeam();
@@ -33,11 +33,8 @@ public class SuperManagerTest {
 
     @Test
     public void testAuthenticateSuperManager() {
-        // Test with correct credentials (email + password)
         assertTrue(SuperManager.authenticateSuperManager("gias.uddin@yorku.com", "EECS3311$admin"));
-        // Test with incorrect credentials (wrong password)
         assertFalse(SuperManager.authenticateSuperManager("gias.uddin@yorku.com", "EECS3311$wrongAdmin"));
-        // Test with incorrect credentials (wrong email)
         assertFalse(SuperManager.authenticateSuperManager("uddin@yorku.com", "EECS3311$admin"));
     }
 

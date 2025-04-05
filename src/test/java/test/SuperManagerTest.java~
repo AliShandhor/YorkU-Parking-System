@@ -5,6 +5,7 @@ import com.yorku.parkingsystem.management.ManagementTeam;
 import com.yorku.parkingsystem.user.User;
 import com.yorku.parkingsystem.user.UserFactory;
 import com.yorku.parkingsystem.management.ClientRegistration;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,8 +34,12 @@ public class SuperManagerTest {
 
     @Test
     public void testAuthenticateSuperManager() {
+        // Test with correct credentials (email + password)
         assertTrue(SuperManager.authenticateSuperManager("gias.uddin@yorku.com", "EECS3311$admin"));
-        assertFalse(SuperManager.authenticateSuperManager("agias.uddin@yorku.com", "EECS3311$admin"));
+        // Test with incorrect credentials (wrong password)
+        assertFalse(SuperManager.authenticateSuperManager("gias.uddin@yorku.com", "EECS3311$wrongAdmin"));
+        // Test with incorrect credentials (wrong email)
+        assertFalse(SuperManager.authenticateSuperManager("uddin@yorku.com", "EECS3311$admin"));
     }
 
     @Test
