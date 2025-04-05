@@ -1,7 +1,7 @@
 package com.yorku.parkingsystem.Controllers;
 
 
-import com.yorku.parkingsystem.parking.parkinglot.parkingspot.ParkingSpot;
+import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
