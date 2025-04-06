@@ -50,6 +50,19 @@ public class SuperManager implements ParkingManagementOperations {
         return superManager;
     }
 
+    public  SuperManager getSuperManager() {
+        return superManager;
+    }
+
+    public  ArrayList<ParkingLot> getParkingLots() {
+        return parkingLots;
+    }
+
+    public  ArrayList<User> getRegisteredUsers() {
+        return registeredUsers;
+    }
+
+
     public static Map<ManagementTeam, ArrayList<User>> getManagementTeamAccounts() {
         return managementTeamAccounts;
     }

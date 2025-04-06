@@ -60,8 +60,9 @@ public class ParkingLot implements ParkingComponent {
             return;
         }
 
-        if (notAvailableParkingSpots >= parkingSpotsTotal) {
-            throw new IllegalStateException("Cannot add more parking spots. Maximum capacity of 100 reached.");
+        if ((availableParkingSpots + notAvailableParkingSpots) >= parkingSpotsTotal) {
+            System.out.println("Cannot add more parking spots. Maximum capacity of 100 reached.");
+            return;
         }
 
         parkingSpot.setBelongedToParkingLot(true);
