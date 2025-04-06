@@ -1,8 +1,5 @@
-package test;
+package com.yorku.parkingsystem.management;
 
-import com.yorku.parkingsystem.management.ClientRegistration;
-import com.yorku.parkingsystem.management.ManagementTeam;
-import com.yorku.parkingsystem.management.SuperManager;
 import com.yorku.parkingsystem.user.User;
 import com.yorku.parkingsystem.user.UserFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,8 +27,23 @@ class ManagementTeamTest {
     }
     @Test
     void testAuthenticateManagementTeamAccount() {
+        // Authenticate management team account with correct credentials
         assertTrue(managementTeam.authenticateManagementTeamAccount(managementTeam.getName(), managementTeam.getPassword()));
+
+        // Authenticate management team account with incorrect credentials
         assertFalse(managementTeam.authenticateManagementTeamAccount("wrongUserName", "wrongPassword"));
+
+        // Register and add user1
+        clientRegistration.registerClient(user1, managementTeam);
+        managementTeam.addUser(user1);
+
+        // Attempt to authenticate user1 with invalid password
+        boolean isAuthenticated = managementTeam.authenticateManagementTeamAccount(user1.getName(), "wrongPassword");
+        assertFalse(isAuthenticated, "User should not be authenticated with wrong password");
+
+        // Attempt to authenticate user1 with invalid username
+        isAuthenticated = managementTeam.authenticateManagementTeamAccount("wrongUsername", user1.getPassword());
+        assertFalse(isAuthenticated, "User should not be authenticated with wrong username");
     }
 
     @Test
@@ -149,6 +161,19 @@ class ManagementTeamTest {
         managementTeam.addUser(user2);
         assertEquals(2, managementTeam.getRegisteredUsers().size());
         assertTrue(managementTeam.getRegisteredUsers().contains(user2));
+    }
+
+    @Test
+    void testAddUnregisteredUser() {
+        // Create a user who is not registered in the system; we do not use 'clientRegistration.registerClient()' to register this user
+        User unregisteredUser = UserFactory.getUser("STUDENT", "John Doe", "XYZ123", "john.doe@yorku.com", "Password123!");
+
+        // Attempt to add the unregistered user to the management team
+        managementTeam.addUser(unregisteredUser);
+
+        // Verify that the unregistered user is not added to the management team
+        assertEquals(0, managementTeam.getUsersCount(), "Unregistered user should not be added to the management team");
+        assertFalse(managementTeam.getRegisteredUsers().contains(unregisteredUser), "Unregistered user should not be in the registered users list");
     }
 
 

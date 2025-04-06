@@ -134,15 +134,16 @@ public class ClientRegistration {
         }
     }
 
-    public void authenticateUser(String username, String password) {
+    public boolean authenticateUser(String username, String password) {
 
         for (User user : registeredUsers) {
             if (user.getName().equals(username) && user.getPassword().equals(password)) {
                 System.out.println("User '" + username + "' has been authenticated successfully.");
-                return;
+                return true;
             }
         }
         System.out.println("Authentication failed. Please check your credentials.");
+        return false;
     }
 
     public boolean isValidEmail(String email){

@@ -1,13 +1,10 @@
-package test;
+package com.yorku.parkingsystem.management;
 
-import com.yorku.parkingsystem.management.SuperManager;
-import com.yorku.parkingsystem.management.ManagementTeam;
 import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
 import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
 import com.yorku.parkingsystem.parking.parkingspot.ParkingSpotBuilder;
 import com.yorku.parkingsystem.user.User;
 import com.yorku.parkingsystem.user.UserFactory;
-import com.yorku.parkingsystem.management.ClientRegistration;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,0 +1,168 @@
+package com.yorku.parkingsystem.management;
+
+import com.yorku.parkingsystem.user.User;
+import com.yorku.parkingsystem.user.UserFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ClientRegistrationTest {
+    private ClientRegistration clientRegistration;
+    private ManagementTeam managementTeam;
+    private User user1;
+    private User user2;
+
+    @BeforeEach
+    void setUp() {
+        SuperManager superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "EECS3311$admin");
+        clientRegistration = new ClientRegistration();
+        managementTeam = new ManagementTeam();
+        // register the management team
+        superManager.generateManagementTeamAccount(managementTeam);
+
+        user1 = UserFactory.getUser("STUDENT", "Ali Shandhor", "CWFZ590", "a.shanzoor@yorku.com", "Ali05585852454$");
+        user2 = UserFactory.getUser("VISITOR", "Uzma Alam", "CWSZ112", "ali2030@yorku.com", "Uu123456789!");
+    }
+
+    @Test
+    void testRegisterClient() {
+        clientRegistration.registerClient(user1, managementTeam);
+        assertTrue(clientRegistration.getRegisteredUsers().contains(user1), "User should be registered");
+    }
+
+    @Test
+    void testRegisterClientWithInvalidEmail() {
+        User invalidEmailUser = UserFactory.getUser("STUDENT", "Ainas Salehi", "CSEW1251", "ainas.salehiyorku.com", "Aa12345689$");
+        clientRegistration.registerClient(invalidEmailUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(invalidEmailUser), "User should not be registered");
+    }
+
+    @Test
+    void testRegisterClientWithInvalidLicensePlate() {
+        // License plate with all letters
+        User allLettersLicenseUser = UserFactory.getUser("STUDENT", "Ali Shandhor", "AAAAAA", "ali2030@yorku.com", "Ali05585852454$");
+        clientRegistration.registerClient(allLettersLicenseUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(allLettersLicenseUser), "User should not be registered because of invalid license plate");
+
+        // License plate with all numbers
+        User allNumbersLicenseUser = UserFactory.getUser("STUDENT", "Ali Shandhor", "123456", "ali2030@yorku.com", "Ali05585852454$");
+        clientRegistration.registerClient(allNumbersLicenseUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(allNumbersLicenseUser), "User should not be registered because of invalid license plate");
+
+        // License plate with special characters
+        User specialCharsLicenseUser = UserFactory.getUser("STUDENT", "Ali Shandhor", "ABC@123", "ali2030@yorku.com", "Ali05585852454$");
+        clientRegistration.registerClient(specialCharsLicenseUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(specialCharsLicenseUser), "User should not be registered because of invalid license plate");
+
+        // License plate with invalid format
+        User invalidFormatLicenseUser = UserFactory.getUser("STUDENT", "Ali Shandhor", "AB123C111", "ali2030@yorku.com", "Ali05585852454$");
+        clientRegistration.registerClient(invalidFormatLicenseUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(invalidFormatLicenseUser), "User should not be registered because of invalid license plate");
+    }
+
+    @Test
+    void testRegisterClientWithInvalidPassword() {
+        // Password with no capital letter
+        User noCapitalLetterPasswordUser = UserFactory.getUser("STUDENT", "Ali Shandhor", "CWFZ590", "ali2030@yorku.com", "weakpassword1$");
+        clientRegistration.registerClient(noCapitalLetterPasswordUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(noCapitalLetterPasswordUser), "User should not be registered because of invalid password");
+
+        // Password with no lowercase letter
+        User noLowercaseLetterPasswordUser = UserFactory.getUser("STUDENT", "Ali Shandhor", "CWFZ590", "ali2030@yorku.com", "ALI05585852454$");
+        clientRegistration.registerClient(noLowercaseLetterPasswordUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(noLowercaseLetterPasswordUser), "User should not be registered because of invalid password");
+
+        // Password with no special symbol
+        User noSymbolPasswordUser = UserFactory.getUser("STUDENT", "Ali Shandhor", "CWFZ590", "ali2030@yorku.com", "Weakpassword1");
+        clientRegistration.registerClient(noSymbolPasswordUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(noSymbolPasswordUser), "User should not be registered because of invalid password");
+
+        // Password with no numbers
+        User invalidPasswordUser = UserFactory.getUser("STUDENT", "Ali Shandhor", "CWFZ590", "ali2030@yorku.com", "Ali$$$$$$$$$$");
+        clientRegistration.registerClient(invalidPasswordUser, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(invalidPasswordUser), "User should not be registered because of invalid password");
+
+    }
+
+    @Test
+    void testRegisterDuplicateClient() {
+        clientRegistration.registerClient(user1, managementTeam);
+        clientRegistration.registerClient(user1, managementTeam);
+        assertEquals(1, clientRegistration.getRegisteredUsers().size(), "User should not be registered twice");
+    }
+
+    @Test
+    void testUnregisterClient() {
+        clientRegistration.registerClient(user1, managementTeam);
+        clientRegistration.unregisterClient(user1, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(user1), "User should be unregistered");
+    }
+
+    @Test
+    void testUnregisterNonExistentClient() {
+        clientRegistration.unregisterClient(user1, managementTeam);
+        assertFalse(clientRegistration.getRegisteredUsers().contains(user1), "User should not be unregistered");
+    }
+
+    @Test
+    void testRegisterMultipleUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(user1);
+        users.add(user2);
+        clientRegistration.registerMultipleUsers(users, managementTeam);
+        assertEquals(2, clientRegistration.getRegisteredUsers().size(), "Users should be registered");
+    }
+
+    @Test
+    void testAuthenticateUser() {
+        clientRegistration.registerClient(user1, managementTeam);
+        boolean isAuthenticated = clientRegistration.authenticateUser(user1.getName(), user1.getPassword());
+
+        // Verify that the user is registered
+        assertTrue(clientRegistration.getRegisteredUsers().contains(user1), "User should be registered");
+
+        // Verify that the user ID is set correctly
+        assertEquals(1, user1.getUserID(), "User ID should be 1");
+
+        // Verify that the user is authenticated successfully
+        assertTrue(isAuthenticated, "User should be authenticated with correct credentials");
+    }
+
+    @Test
+    void testAuthenticateUserWithWrongCredentials() {
+        clientRegistration.registerClient(user1, managementTeam);
+        boolean isAuthenticated1 = clientRegistration.authenticateUser(user1.getName(), "wrongPassword");
+        assertFalse(isAuthenticated1, "User should not be authenticated with wrong credentials");
+
+        boolean isAuthenticated2 = clientRegistration.authenticateUser("wrongUsername", user1.getPassword());
+        assertFalse(isAuthenticated2, "User should not be authenticated with wrong credentials");
+    }
+
+    @Test
+    void testGetRegisteredUsers() {
+        clientRegistration.registerClient(user1, managementTeam);
+        assertEquals(1, clientRegistration.getRegisteredUsers().size(), "User should be registered");
+    }
+
+    @Test
+    void testGetUserIDForClientAfterRegistration() {
+        // Register the first user and verify their user ID
+        clientRegistration.registerClient(user1, managementTeam);
+        assertTrue(clientRegistration.getRegisteredUsers().contains(user1), "User1 should be registered");
+        assertEquals(1, user1.getUserID(), "User1 ID should be 1");
+
+        // Register the second user and verify their user ID
+        clientRegistration.registerClient(user2, managementTeam);
+        assertTrue(clientRegistration.getRegisteredUsers().contains(user2), "User2 should be registered");
+        assertEquals(2, user2.getUserID(), "User2 ID should be 2");
+
+        // Verify the total number of registered users
+        assertEquals(2, clientRegistration.getRegisteredUsers().size(), "There should be 2 registered users");
+
+        // Verify that the user IDs are unique
+        assertNotEquals(user1.getUserID(), user2.getUserID(), "User IDs should be unique");
+    }
+}
