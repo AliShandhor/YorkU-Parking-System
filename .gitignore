@@ -36,3 +36,25 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# compiled classes
+*.class
+
+# IntelliJ / VSCode
+.idea/
+.vscode/
+
+# logs
+*.log
+
+# target folder (Maven build output)
+target/
+
+# Mac system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# generated test output (optional)
+generated-test-sources/
