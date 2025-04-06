@@ -83,4 +83,8 @@ public class ParkingSpot implements ParkingComponent {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
+    public static void resetIDCounter() {
+        idCounter = 0;
+    }
+
 }

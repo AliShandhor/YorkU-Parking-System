@@ -17,6 +17,13 @@ class ParkingLotTest {
 
     @BeforeEach
     void setUp() {
+
+        // Reset
+        SuperManager.resetInstance();
+        ManagementTeam.resetIDCounter();
+        ParkingLot.resetIDCounter();
+        ParkingSpot.resetIDCounter();
+
         // create super manager to add, enable and disable parking lots & parking spots
         superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "EECS3311$admin");
         // create management team
@@ -28,8 +35,9 @@ class ParkingLotTest {
         // create parking spot
         parkingSpot1 = new ParkingSpot();
         parkingSpot2 = new ParkingSpot();
+
     }
-    // Enable, disable and add parking lots * parking spots through SuperManager
+    // Enable, disable and add parking lots & parking spots through SuperManager
     @Test
     void testAddParkingSpot() {
         superManager.enableParkingLot(parkingLot);
@@ -42,7 +50,6 @@ class ParkingLotTest {
         superManager.enableParkingLot(parkingLot);
         assertEquals(100, parkingLot.getParkingSpotsTotal(), "Parking Lot Capacity should be 100");
     }
-
 
 
     @Test

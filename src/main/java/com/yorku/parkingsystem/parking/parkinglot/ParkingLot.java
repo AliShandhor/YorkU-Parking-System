@@ -54,6 +54,11 @@ public class ParkingLot implements ParkingComponent {
         }
     }
 
+    public static void resetIDCounter() {
+        idCounter = 0;
+    }
+
+
     public void addParkingSpot(ParkingSpot parkingSpot) {
         if (!isEnabled) {
             System.out.println("Parking lot is not enabled. Cannot add parking spots.");

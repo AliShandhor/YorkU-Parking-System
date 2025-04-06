@@ -128,6 +128,10 @@ public class SuperManager implements ParkingManagementOperations {
     public String generateManagementTeamAccountName() {
         return generateRandomString(ACCOUNT_NAME_LENGTH, CHAR_POOL_NAME);
     }
+    public static void resetInstance() {
+        superManager = null;
+    }
+
 
     // Generate strong password for the management team
     public String generateManagementTeamAccountPassword() {

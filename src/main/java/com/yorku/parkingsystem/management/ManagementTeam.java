@@ -73,6 +73,15 @@ public class ManagementTeam extends SuperManager  {
         registeredUsers.add(user);
         System.out.println("User '" + user.getName() + "' has been added to the management team: " + name);
     }
+    public void reset() {
+        this.name = null;
+        this.password = null;
+        this.ID = 0;
+        this.registered = false;
+        this.registeredUsers.clear();
+        this.parkingLot = null;
+    }
+
 
     public void removeUser(User user) {
         if (!user.isRegistered()) {
