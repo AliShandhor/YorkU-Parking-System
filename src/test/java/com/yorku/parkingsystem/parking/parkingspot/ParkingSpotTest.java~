@@ -70,10 +70,10 @@ class ParkingSpotTest {
     void testResetIDCounter() {
         ParkingSpot.resetIDCounter();
         assertEquals(0, ParkingSpot.getIdCounter(), "ID counter should be reset to 0");
-        ParkingSpot parkingSpot1 = new ParkingSpot();
-        assertEquals(1, parkingSpot1.getParkingSpotID(), "ID counter should be reset to 1");
         ParkingSpot parkingSpot2 = new ParkingSpot();
-        assertEquals(2, parkingSpot2.getParkingSpotID(), "ID counter should increment correctly");
+        assertEquals(1, parkingSpot2.getParkingSpotID(), "ID counter should be reset to 1");
+        ParkingSpot parkingSpot3 = new ParkingSpot();
+        assertEquals(2, parkingSpot3.getParkingSpotID(), "ID counter should increment correctly");
     }
 
     @Test
