@@ -135,6 +135,6 @@ class ParkingSpotBuilderTest {
                 .build();
         assertEquals("12345", parkingSpot.getLocation());
     }
-
+    
 
 }
