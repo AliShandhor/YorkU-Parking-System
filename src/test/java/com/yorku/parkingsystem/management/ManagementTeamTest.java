@@ -16,7 +16,7 @@ class ManagementTeamTest {
     @BeforeEach
     void setUp() {
 
-       SuperManager superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "EECS3311$admin");
+        SuperManager superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "EECS3311$admin");
         clientRegistration = new ClientRegistration();
         managementTeam = new ManagementTeam();
 
@@ -174,6 +174,60 @@ class ManagementTeamTest {
         // Verify that the unregistered user is not added to the management team
         assertEquals(0, managementTeam.getUsersCount(), "Unregistered user should not be added to the management team");
         assertFalse(managementTeam.getRegisteredUsers().contains(unregisteredUser), "Unregistered user should not be in the registered users list");
+    }
+
+    @Test
+    void testReset() {
+        // Register and add user1
+        clientRegistration.registerClient(user1, managementTeam);
+        managementTeam.addUser(user1);
+        managementTeam.setName("TestName");
+        managementTeam.setPassword("TestPassword");
+        managementTeam.setID(123);
+
+        // Reset the management team
+        managementTeam.reset();
+
+        // Verify that all fields are reset
+        assertNull(managementTeam.getName());
+        assertNull(managementTeam.getPassword());
+        assertEquals(0, managementTeam.getID());
+        assertFalse(managementTeam.isRegistered());
+        assertTrue(managementTeam.getRegisteredUsers().isEmpty());
+    }
+
+    @Test
+    void testToString() {
+        managementTeam.setName("TestName");
+        managementTeam.setPassword("TestPassword");
+        managementTeam.register(true);
+
+        String expected = "ManagementTeam{name='TestName'password= TestPassword, registered= true, usersCount=0}";
+        assertEquals(expected, managementTeam.toString());
+    }
+
+    @Test
+    void testSetName() {
+        managementTeam.setName("NewName");
+        assertEquals("NewName", managementTeam.getName());
+    }
+
+    @Test
+    void testSetPassword() {
+        managementTeam.setPassword("NewPassword");
+        assertEquals("NewPassword", managementTeam.getPassword());
+    }
+
+    @Test
+    void testSetID() {
+        managementTeam.setID(456);
+        assertEquals(456, managementTeam.getID());
+    }
+
+    @Test
+    void testGetID() {
+        managementTeam.setID(789);
+        assertEquals(789, managementTeam.getID());
     }
 
 

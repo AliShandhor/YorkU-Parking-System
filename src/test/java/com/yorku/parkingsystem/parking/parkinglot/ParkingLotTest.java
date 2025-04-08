@@ -2,9 +2,12 @@ package com.yorku.parkingsystem.parking.parkinglot;
 
 import com.yorku.parkingsystem.management.ManagementTeam;
 import com.yorku.parkingsystem.management.SuperManager;
+import com.yorku.parkingsystem.parking.ParkingComponent;
 import com.yorku.parkingsystem.parking.parkingspot.ParkingSpot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +30,7 @@ class ParkingLotTest {
         // create super manager to add, enable and disable parking lots & parking spots
         superManager = SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "EECS3311$admin");
         // create management team
-         managementTeam = new ManagementTeam();
+        managementTeam = new ManagementTeam();
         // register management team
         superManager.generateManagementTeamAccount(managementTeam);
         // create parking lot
@@ -191,8 +194,70 @@ class ParkingLotTest {
     }
 
 
+    @Test
+    void testRemoveNonExistentParkingSpot() {
+        superManager.enableParkingLot(parkingLot);
+        assertEquals(0, parkingLot.getNotAvailableParkingSpots(), "Non-existent parking spot should not affect non-available parking spots");
+        assertEquals(100, parkingLot.getAvailableParkingSpots(), "Non-existent parking spot should not affect available spots");
+    }
 
+    @Test
+    void testAddParkingSpotWhenDisabled() {
+        superManager.disableParkingLot(parkingLot);
+        superManager.addParkingSpace(parkingLot, parkingSpot1);
+        assertEquals(0, parkingLot.getNotAvailableParkingSpots(), "Parking spot should not be added when parking lot is disabled");
+        assertEquals(100, parkingLot.getAvailableParkingSpots(), "Available spots should remain the same when parking lot is disabled");
+    }
 
+    @Test
+    void testRemoveParkingSpotWhenDisabled() {
+        superManager.enableParkingLot(parkingLot);
+        superManager.addParkingSpace(parkingLot, parkingSpot1);
+        superManager.disableParkingLot(parkingLot);
+        assertEquals(1, parkingLot.getNotAvailableParkingSpots(), "Parking spot should not be removed when parking lot is disabled");
+        assertEquals(99, parkingLot.getAvailableParkingSpots(), "Available spots should remain the same when parking lot is disabled");
+    }
+
+    @Test
+    void testSetParkingSpots() {
+        ArrayList<ParkingComponent> newParkingSpots = new ArrayList<>();
+        newParkingSpots.add(parkingSpot1);
+        newParkingSpots.add(parkingSpot2);
+        parkingLot.setParkingSpots(newParkingSpots);
+        assertEquals(2, parkingLot.getNotAvailableParkingSpots(), "Parking spots should be set correctly");
+        assertEquals(98, parkingLot.getAvailableParkingSpots(), "Available spots should be updated correctly");
+    }
+
+    @Test
+    void testRemoveParkingSpot() {
+        superManager.enableParkingLot(parkingLot);
+        superManager.addParkingSpace(parkingLot, parkingSpot1);
+        parkingLot.removeParkingSpot(parkingSpot1);
+        assertEquals(0, parkingLot.getNotAvailableParkingSpots(), "Parking spot should be removed and non-available parking spot should decrease");
+        assertEquals(100, parkingLot.getAvailableParkingSpots(), "Available spots should increase");
+    }
+
+    @Test
+    void testGetParkingSpots() {
+        superManager.enableParkingLot(parkingLot);
+        superManager.addParkingSpace(parkingLot, parkingSpot1);
+        superManager.addParkingSpace(parkingLot, parkingSpot2);
+
+        ArrayList<ParkingComponent> parkingSpots = parkingLot.getParkingSpots();
+        assertEquals(2, parkingSpots.size(), "Parking spots should be retrieved correctly");
+        assertTrue(parkingSpots.contains(parkingSpot1), "Parking spot 1 should be in the list");
+        assertTrue(parkingSpots.contains(parkingSpot2), "Parking spot 2 should be in the list");
+    }
+
+    @Test
+    void testGetLocation() {
+        assertEquals("York University", parkingLot.getLocation(), "Location should be 'York University'");
+    }
+
+    @Test
+    void testGetParkingLotID() {
+        assertEquals(1, parkingLot.getParkingLotID(), "Parking lot ID should be 1");
+    }
 
 
 }

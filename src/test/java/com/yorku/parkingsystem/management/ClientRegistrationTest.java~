@@ -143,8 +143,13 @@ class ClientRegistrationTest {
 
     @Test
     void testGetRegisteredUsers() {
+        // Register the first user and verify their registration
         clientRegistration.registerClient(user1, managementTeam);
-        assertEquals(1, clientRegistration.getRegisteredUsers().size(), "User should be registered");
+        assertTrue(clientRegistration.getRegisteredUsers().contains(user1), "User1 should be registered");
+
+        // Register the second user and verify their registration
+        clientRegistration.registerClient(user2, managementTeam);
+        assertTrue(clientRegistration.getRegisteredUsers().contains(user2), "User2 should be registered");
     }
 
     @Test

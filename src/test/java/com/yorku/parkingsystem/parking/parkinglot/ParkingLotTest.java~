@@ -20,7 +20,7 @@ class ParkingLotTest {
 
         // Reset
         SuperManager.resetInstance();
-        ManagementTeam.resetIDCounter();
+        ManagementTeam.resetInstance();
         ParkingLot.resetIDCounter();
         ParkingSpot.resetIDCounter();
 

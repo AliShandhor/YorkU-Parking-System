@@ -1,6 +1,7 @@
 package com.yorku.parkingsystem.parking.parkingspot;
 
 import com.yorku.parkingsystem.parking.ParkingComponent;
+import com.yorku.parkingsystem.parking.parkinglot.ParkingLot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,4 +100,20 @@ class ParkingSpotTest {
         parkingSpot.setAvailability(true);
         assertTrue(parkingSpot.isAvailable(), "Availability should be true");
     }
+    @Test
+    void testSetAndGetParkingLot() {
+        ParkingLot parkingLot = new ParkingLot("Main Lot", "York University");
+        parkingSpot.setParkingLot(parkingLot);
+        assertEquals(parkingLot, parkingSpot.getParkingLot(), "Parking lot should be set correctly");
+    }
+
+    @Test
+    void testSetAndGetParkingLotNull() {
+        parkingSpot.setParkingLot(null);
+        assertNull(parkingSpot.getParkingLot(), "Parking lot should be null");
+    }
+
+
+
+
 }

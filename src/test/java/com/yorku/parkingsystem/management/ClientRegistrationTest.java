@@ -170,4 +170,70 @@ class ClientRegistrationTest {
         // Verify that the user IDs are unique
         assertNotEquals(user1.getUserID(), user2.getUserID(), "User IDs should be unique");
     }
+    @Test
+    void testHasValidLicensePlate() {
+        // Valid license plates
+        User validLicenseUser1 = UserFactory.getUser("STUDENT", "Valid User1", "ABC1234", "valid1@yorku.com", "ValidPass1$");
+        assertTrue(clientRegistration.hasValidLicensePlate(validLicenseUser1), "License plate should be valid");
+
+        User validLicenseUser2 = UserFactory.getUser("STUDENT", "Valid User2", "ABC 123 DEF", "valid2@yorku.com", "ValidPass2$");
+        assertTrue(clientRegistration.hasValidLicensePlate(validLicenseUser2), "License plate should be valid");
+
+        // Invalid license plates
+        User invalidLicenseUser1 = UserFactory.getUser("STUDENT", "Invalid User1", "123456", "invalid1@yorku.com", "InvalidPass1$");
+        assertFalse(clientRegistration.hasValidLicensePlate(invalidLicenseUser1), "License plate should be invalid");
+
+        User invalidLicenseUser2 = UserFactory.getUser("STUDENT", "Invalid User2", "ABC@123", "invalid2@yorku.com", "InvalidPass2$");
+        assertFalse(clientRegistration.hasValidLicensePlate(invalidLicenseUser2), "License plate should be invalid");
+    }
+
+    @Test
+    void testIsValidEmail() {
+        // Valid emails
+        assertTrue(clientRegistration.isValidEmail("valid.email@yorku.com"), "Email should be valid");
+        assertTrue(clientRegistration.isValidEmail("another.valid.email@yorku.com"), "Email should be valid");
+
+        // Invalid emails
+        assertFalse(clientRegistration.isValidEmail("invalid.email.com"), "Email should be invalid");
+        assertFalse(clientRegistration.isValidEmail("invalid@.com"), "Email should be invalid");
+    }
+
+    @Test
+    void testIsValidPassword() {
+        // Valid passwords
+        assertTrue(clientRegistration.isValidPassword("ValidPass1$"), "Password should be valid");
+        assertTrue(clientRegistration.isValidPassword("AnotherValid1$"), "Password should be valid");
+
+        // Invalid passwords
+        assertFalse(clientRegistration.isValidPassword("weakpassword"), "Password should be invalid");
+        assertFalse(clientRegistration.isValidPassword("NoNumber$"), "Password should be invalid");
+    }
+
+
+    @Test
+    void testDisplayRegisteredUsersWhenEmpty() {
+        // Capture the output of displayRegisteredUsers
+        java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(outContent));
+
+        clientRegistration.displayRegisteredUsers();
+
+        // Verify the output
+        String expectedOutput = "There is no any registered user in the system.";
+        assertEquals(expectedOutput, outContent.toString().trim());
+
+        // Reset the standard output
+        System.setOut(System.out);
+    }
+
+    @Test
+    void testGetUserID() {
+        // Register the first user and verify their user ID
+        clientRegistration.registerClient(user1, managementTeam);
+        assertEquals(1, user1.getUserID(), "User1 ID should be 1");
+
+        // Register the second user and verify their user ID
+        clientRegistration.registerClient(user2, managementTeam);
+        assertEquals(2, user2.getUserID(), "User2 ID should be 2");
+    }
 }
