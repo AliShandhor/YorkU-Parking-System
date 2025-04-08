@@ -63,7 +63,7 @@ class BillingVisitorTest {
     // Test cases for edge cases
     @Test
     void testVisitWithNullBooking() {
-        Visitor visitorUser = new Visitor("sadia", "sadia@yorku.ca", "sadia123", "Z01928374", 15.0);
+        Visitor visitorUser = new Visitor("Sadia", "sadia@yorku.ca", "sadia123", "Z01928374", 15.0);
         visitorUser.register(true);
         BillingVisitor visitor = new BillingVisitor(null);
 
@@ -95,7 +95,7 @@ class BillingVisitorTest {
     @Test
     void testVisitWithPastBooking() {
         Date pastTime = new Date(System.currentTimeMillis() - 2 * 60 * 60 * 1000); // 2 hours ago
-        NonFacultyMember user = new NonFacultyMember("Raisa", "raisa@yorku.ca", "raisa123", "R95837260", 10.0);
+        NonFacultyMember user = new NonFacultyMember("Uz", "uz@yorku.ca", "uz123", "R95837260", 10.0);
         user.register(true);
         booking = new Booking(testSpot, 107, user, pastTime, 1);
         BillingVisitor visitor = new BillingVisitor(booking);
