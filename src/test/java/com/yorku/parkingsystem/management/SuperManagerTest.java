@@ -21,6 +21,13 @@ public class SuperManagerTest {
     private ParkingLot parkingLot;
     private ParkingSpot parkingSpot;
 
+    
+    @BeforeEach
+    void reset() {
+        SuperManager.resetInstanceForTesting();
+    }
+    
+
     @BeforeEach
     public void setUp() {
         // creating super manager object
@@ -48,11 +55,12 @@ public class SuperManagerTest {
 
     @Test
     public void testAuthenticateSuperManager() {
+        SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "EECS3311$admin");
         assertTrue(SuperManager.authenticateSuperManager("gias.uddin@yorku.com", "EECS3311$admin"));
-        assertFalse(SuperManager.authenticateSuperManager("gias.uddin@yorku.com", "EECS3311$wrongAdmin"));
-        assertFalse(SuperManager.authenticateSuperManager("uddin@yorku.com", "EECS3311$admin"));
+        assertFalse(SuperManager.authenticateSuperManager("gias.uddin@yorku.com", "wrongPassword"));
+        assertFalse(SuperManager.authenticateSuperManager("wrongEmail@yorku.com", "EECS3311$admin"));
     }
-
+    
     @Test
     public void testGenerateManagementTeamAccount() {
         superManager.generateManagementTeamAccount(managementTeam);
@@ -102,20 +110,35 @@ public class SuperManagerTest {
     }
 
     @Test
-    public void testAuthenticateManagementTeamAccount_Success() {
-        superManager.generateManagementTeamAccount(managementTeam);
-        String name = managementTeam.getName();
-        String pass = managementTeam.getPassword();
-        assertTrue(superManager.authenticateManagementTeamAccount(name, pass));
-    }
+public void testAuthenticateManagementTeamAccount_Success() {
+    superManager.generateManagementTeamAccount(managementTeam);
 
-    @Test
-    public void testAuthenticateManagementTeamAccount_Fail() {
-        superManager.generateManagementTeamAccount(managementTeam);
-        assertFalse(superManager.authenticateManagementTeamAccount("wrongUserName", managementTeam.getPassword()));
-        assertFalse(superManager.authenticateManagementTeamAccount(managementTeam.getName(), "wrongPassword"));
-        assertTrue(superManager.authenticateManagementTeamAccount(managementTeam.getName(), managementTeam.getPassword()));
-    }
+    String name = managementTeam.getName();         // <- updated after generation
+    String password = managementTeam.getPassword(); // <- updated after generation
+
+    assertTrue(superManager.authenticateManagementTeamAccount(name, password));
+}
+
+    
+
+@Test
+public void testAuthenticateManagementTeamAccount_Fail() {
+    superManager.generateManagementTeamAccount(managementTeam);
+
+    String name = managementTeam.getName();
+    String password = managementTeam.getPassword();
+
+    // use wrong credentials deliberately
+    assertFalse(superManager.authenticateManagementTeamAccount("wrongUsername", password));
+    assertFalse(superManager.authenticateManagementTeamAccount(name, "wrongPassword"));
+
+    // this is actually correct and should still pass
+    assertTrue(superManager.authenticateManagementTeamAccount(name, password));
+}
+
+    
+    
+    
     @Test
     public void testReserveAndUnreserveParkingSpot() {
         superManager.generateManagementTeamAccount(managementTeam);
@@ -154,10 +177,11 @@ public class SuperManagerTest {
 
     @Test
     public void testShowSuperManagerInfo() {
-        superManager.showSuperManagerInfo();
-        assertEquals("Gias Uddin", superManager.getSuperManagerName());
-        assertEquals("gias.uddin@yorku.com", superManager.getSuperManagerEmail());
-        assertEquals("EECS3311$admin", superManager.getSuperManagerPassword());
+    SuperManager.getSuperManagerInstance("Gias Uddin", "gias.uddin@yorku.com", "EECS3311$admin");
+
+    assertEquals("Gias Uddin", superManager.getSuperManagerName());
+    assertEquals("gias.uddin@yorku.com", superManager.getSuperManagerEmail());
+    assertEquals("EECS3311$admin", superManager.getSuperManagerPassword());
     }
 
     @Test

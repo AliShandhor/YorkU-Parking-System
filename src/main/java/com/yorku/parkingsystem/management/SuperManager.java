@@ -50,6 +50,10 @@ public class SuperManager implements ParkingManagementOperations {
         return superManager;
     }
 
+    public static void resetInstanceForTesting() {
+        superManager = null;
+    }
+    
     public  SuperManager getSuperManager() {
         return superManager;
     }
@@ -396,6 +400,9 @@ public class SuperManager implements ParkingManagementOperations {
     public void setUserParkingMap(HashMap<User, ParkingSpot> userParkingMap) {
         this.userParkingMap = userParkingMap;
     }
+
+ 
+
     // Method to display all registered users
     public void displayAllUsersDetails() {
         if (managementTeamAccounts.isEmpty()) {
